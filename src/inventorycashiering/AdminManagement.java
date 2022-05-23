@@ -29,7 +29,7 @@ public class AdminManagement extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
 
-
+        dispStaffTransaction();
         manageUserAccounts();
 //        statusCombo();
 //        displayUserAccounts();
@@ -54,6 +54,28 @@ public class AdminManagement extends javax.swing.JFrame {
 //            System.out.println(e.getMessage());
 //        }
 //    }
+    
+    public void dispStaffTransaction() {
+        DefaultTableModel staffTransactionModel = (DefaultTableModel) staffTransactionTable.getModel();
+        int count = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `stransactions`");
+
+//                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
+                while (transactdata.next()) {
+                    count = 0;
+                    staffTransactionModel.addRow(new Object[]{transactdata.getString("STransactionId"), transactdata.getString("transactionDate"), transactdata.getString("userId"), transactdata.getString("InventoryId"), transactdata.getString("productName"), transactdata.getString("typeoftransaction")});
+
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 
     public void manageUserAccounts() {
         DefaultTableModel admintable = (DefaultTableModel) manageUserTable.getModel();
@@ -101,6 +123,8 @@ public class AdminManagement extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel16 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
@@ -153,6 +177,10 @@ public class AdminManagement extends javax.swing.JFrame {
         CTmanageUsersBtn = new javax.swing.JButton();
         CTstaffTransactionBtn4 = new javax.swing.JButton();
         usersHomeBtn2 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        staffTransactionTable = new javax.swing.JTable();
+        jPanel21 = new javax.swing.JPanel();
+        jLabel14 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         logOutBtn3 = new javax.swing.JButton();
@@ -160,6 +188,26 @@ public class AdminManagement extends javax.swing.JFrame {
         STmanageUserbtn = new javax.swing.JButton();
         STstaffTransactionBtn3 = new javax.swing.JButton();
         usersHomeBtn1 = new javax.swing.JButton();
+
+        jPanel16.setBackground(new java.awt.Color(255, 204, 204));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(102, 0, 0));
+        jLabel13.setText("Your Transaction");
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel16Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -370,7 +418,7 @@ public class AdminManagement extends javax.swing.JFrame {
                 MUcashierTransactionBtn2MouseClicked(evt);
             }
         });
-        jPanel17.add(MUcashierTransactionBtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
+        jPanel17.add(MUcashierTransactionBtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
 
         MUManageUsersBtn2.setText("Manage Users");
         MUManageUsersBtn2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -386,7 +434,7 @@ public class AdminManagement extends javax.swing.JFrame {
                 MUstaffTransactionBtnMouseClicked(evt);
             }
         });
-        jPanel17.add(MUstaffTransactionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
+        jPanel17.add(MUstaffTransactionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
 
         MUusersHomeBtn3.setText("Home");
         MUusersHomeBtn3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -410,7 +458,7 @@ public class AdminManagement extends javax.swing.JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 1115, Short.MAX_VALUE)
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 1120, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -438,7 +486,7 @@ public class AdminManagement extends javax.swing.JFrame {
                 CTcashierTransMouseClicked(evt);
             }
         });
-        jPanel20.add(CTcashierTrans, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
+        jPanel20.add(CTcashierTrans, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
 
         CTmanageUsersBtn.setText("Manage Users");
         CTmanageUsersBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -454,7 +502,7 @@ public class AdminManagement extends javax.swing.JFrame {
                 CTstaffTransactionBtn4MouseClicked(evt);
             }
         });
-        jPanel20.add(CTstaffTransactionBtn4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
+        jPanel20.add(CTstaffTransactionBtn4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
 
         usersHomeBtn2.setText("Home");
         usersHomeBtn2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -465,6 +513,45 @@ public class AdminManagement extends javax.swing.JFrame {
         jPanel20.add(usersHomeBtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 170, -1));
 
         jPanel18.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 380, 420, 170));
+
+        staffTransactionTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Transaction_ID", "Transaction Date", "UserID", "InventoryID", "Product Name", "Type of Transaction"
+            }
+        ));
+        staffTransactionTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                staffTransactionTableMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(staffTransactionTable);
+
+        jPanel18.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 1100, 280));
+
+        jPanel21.setBackground(new java.awt.Color(255, 204, 204));
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(102, 0, 0));
+        jLabel14.setText("Staff's Transaction");
+
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        );
+
+        jPanel18.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 310, 50));
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -498,7 +585,7 @@ public class AdminManagement extends javax.swing.JFrame {
                 STcashiersTransbtnMouseClicked(evt);
             }
         });
-        jPanel19.add(STcashiersTransbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
+        jPanel19.add(STcashiersTransbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
 
         STmanageUserbtn.setText("Manage Users");
         STmanageUserbtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -514,7 +601,7 @@ public class AdminManagement extends javax.swing.JFrame {
                 STstaffTransactionBtn3MouseClicked(evt);
             }
         });
-        jPanel19.add(STstaffTransactionBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
+        jPanel19.add(STstaffTransactionBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
 
         usersHomeBtn1.setText("Home");
         usersHomeBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -553,15 +640,15 @@ public class AdminManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_ManageUsersBtnMouseClicked
 
     private void staffTransactionBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionBtnMouseClicked
-        jTabbedPane1.setSelectedIndex(3);
+        jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_staffTransactionBtnMouseClicked
 
     private void cashierTransactionBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransactionBtnMouseClicked
-        jTabbedPane1.setSelectedIndex(2);
+        jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_cashierTransactionBtnMouseClicked
 
     private void MUcashierTransactionBtn2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MUcashierTransactionBtn2MouseClicked
-        jTabbedPane1.setSelectedIndex(2);
+        jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_MUcashierTransactionBtn2MouseClicked
 
     private void MUManageUsersBtn2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MUManageUsersBtn2MouseClicked
@@ -569,11 +656,11 @@ public class AdminManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_MUManageUsersBtn2MouseClicked
 
     private void MUstaffTransactionBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MUstaffTransactionBtnMouseClicked
-        jTabbedPane1.setSelectedIndex(3);
+        jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_MUstaffTransactionBtnMouseClicked
 
     private void STcashiersTransbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_STcashiersTransbtnMouseClicked
-        jTabbedPane1.setSelectedIndex(2);
+        jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_STcashiersTransbtnMouseClicked
 
     private void STmanageUserbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_STmanageUserbtnMouseClicked
@@ -581,11 +668,11 @@ public class AdminManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_STmanageUserbtnMouseClicked
 
     private void STstaffTransactionBtn3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_STstaffTransactionBtn3MouseClicked
-        jTabbedPane1.setSelectedIndex(3);
+        jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_STstaffTransactionBtn3MouseClicked
 
     private void CTcashierTransMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CTcashierTransMouseClicked
-        jTabbedPane1.setSelectedIndex(2);
+        jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_CTcashierTransMouseClicked
 
     private void CTmanageUsersBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CTmanageUsersBtnMouseClicked
@@ -593,7 +680,7 @@ public class AdminManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_CTmanageUsersBtnMouseClicked
 
     private void CTstaffTransactionBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CTstaffTransactionBtn4MouseClicked
-        jTabbedPane1.setSelectedIndex(3);
+        jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_CTstaffTransactionBtn4MouseClicked
 
     private void usersHomeBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersHomeBtn1MouseClicked
@@ -793,6 +880,10 @@ public class AdminManagement extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_murResetBtnActionPerformed
 
+    private void staffTransactionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionTableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_staffTransactionTableMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -849,6 +940,8 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -861,11 +954,13 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
@@ -873,6 +968,7 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField lNameField;
     private javax.swing.JButton logOutBtn;
@@ -884,6 +980,7 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JTextField passwordField;
     private javax.swing.JTextField roleField;
     private javax.swing.JButton staffTransactionBtn;
+    private javax.swing.JTable staffTransactionTable;
     private javax.swing.JComboBox<String> statusCombobox;
     private javax.swing.JButton updateBtn;
     private javax.swing.JButton usersHomeBtn1;

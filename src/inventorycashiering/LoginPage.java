@@ -18,13 +18,14 @@ import javax.swing.JFrame;
 
 public class LoginPage extends javax.swing.JFrame {
 
-    /**
-     * Creates new form LoginPage
-     */
+   public static String userid;
+  
     public LoginPage() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
     }
+     
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -203,7 +204,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+     
     private void emailFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_emailFieldFocusGained
         if (emailField.getText().trim().toLowerCase().equals("username")) {
             emailField.setText("");
@@ -271,12 +272,21 @@ public class LoginPage extends javax.swing.JFrame {
                     if (rs.next()) {
                         String role = rs.getString("Role");
                         String status = rs.getString("Status");
+//                        String staffid = rs.getString("UserID");
                         if ("Admin".equals(role) && "Active".equals(status)) {
                             new AdminManagement().setVisible(true);
                             this.setVisible(false);
                         } else if ("Staff".equals(role) && "Active".equals(status)) {
-                            new InventoryManagement().setVisible(true);
-                            this.setVisible(false);
+                         
+//                            new InventoryManagement().setVisible(true);
+//                            this.setVisible(false);
+                            InventoryManagement im = new InventoryManagement();
+                            im.setVisible(true);
+                            im.staffIdField.setEditable(false);
+                            im.staffIdField.setText(rs.getString("UserID"));
+                            im.staffNameField.setText("Welcome on board " + rs.getString("firstname"));
+                            this.dispose();
+
                         } else if ("Cashier".equals(role) && "Active".equals(status)) {
                             new CashierManagement().setVisible(true);
                             this.setVisible(false);

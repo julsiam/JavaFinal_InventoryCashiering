@@ -22,16 +22,17 @@ import java.util.logging.Logger;
 
 public class CashierManagement extends javax.swing.JFrame {
 
-    /**
-     * Creates new form CashierManagement
-     */
+    Connection con = null;
+    PreparedStatement pst = null;
+    PreparedStatement pst1 = null;
+    ResultSet rs = null;
+
     public CashierManagement() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
-        
-        
+       
         displayproducts();
+        comboSql();
     }
 
     public void displayproducts() {
@@ -53,6 +54,23 @@ public class CashierManagement extends javax.swing.JFrame {
         }
     }
     
+    private void comboSql() {
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+            Class.forName("com.mysql.jdbc.Driver");
+            String sql = "SELECT * FROM `inventory` ";
+            pst = con.prepareStatement(sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                String productname = rs.getString("ProductName");
+                productscombobox.addItem(productname);
+            }
+
+        } catch (Exception e) {
+
+        }
+    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -65,8 +83,6 @@ public class CashierManagement extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         logOutBtn = new javax.swing.JButton();
@@ -80,14 +96,27 @@ public class CashierManagement extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         cashiersoldbtn = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        productquantityfield = new javax.swing.JTextField();
         productpricefield = new javax.swing.JTextField();
         productscombobox = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         productquantityfield1 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel12 = new javax.swing.JPanel();
+        title = new javax.swing.JLabel();
+        datesoldlabel = new javax.swing.JLabel();
+        productnamelabel = new javax.swing.JLabel();
+        productquantitylabel = new javax.swing.JLabel();
+        producttotallabel = new javax.swing.JLabel();
+        title1 = new javax.swing.JLabel();
+        title2 = new javax.swing.JLabel();
+        jPanel13 = new javax.swing.JPanel();
+        logOutBtn1 = new javax.swing.JButton();
+        cashierTransactionBtn1 = new javax.swing.JButton();
+        ManageUsersBtn1 = new javax.swing.JButton();
+        staffTransactionBtn1 = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
@@ -103,6 +132,8 @@ public class CashierManagement extends javax.swing.JFrame {
         STmanageUserbtn = new javax.swing.JButton();
         STstaffTransactionBtn3 = new javax.swing.JButton();
         usersHomeBtn1 = new javax.swing.JButton();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -115,32 +146,7 @@ public class CashierManagement extends javax.swing.JFrame {
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\1styrGroupB\\Downloads\\back6.PNG")); // NOI18N
-        jPanel8.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 520, 500));
-
-        jPanel5.setBackground(new java.awt.Color(102, 0, 0));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 204, 204));
-        jLabel1.setText("Cashier Management System");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap())
-        );
-
-        jPanel8.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
+        jPanel8.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 520, 510));
 
         jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 740));
 
@@ -181,7 +187,7 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jPanel9.add(staffTransactionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 170, -1));
 
-        jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 520, 430, 180));
+        jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 430, 430, 180));
 
         tableproductdisplay.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -198,9 +204,9 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tableproductdisplay);
 
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 840, 210));
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 850, 210));
 
-        jPanel7.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 850, 740));
+        jPanel7.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 860, 690));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -217,11 +223,11 @@ public class CashierManagement extends javax.swing.JFrame {
 
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel10.setBackground(new java.awt.Color(102, 0, 0));
+        jPanel10.setBackground(new java.awt.Color(255, 153, 153));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(204, 255, 255));
-        jLabel2.setText("Available Products");
+        jLabel2.setForeground(new java.awt.Color(102, 0, 0));
+        jLabel2.setText("Cashiering");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -240,7 +246,7 @@ public class CashierManagement extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel6.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 10, 380, 50));
+        jPanel6.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 380, 50));
 
         jPanel11.setBackground(new java.awt.Color(0, 204, 153));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -251,24 +257,14 @@ public class CashierManagement extends javax.swing.JFrame {
                 cashiersoldbtnMouseClicked(evt);
             }
         });
-        jPanel11.add(cashiersoldbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 140, -1, -1));
-
-        jLabel6.setText("Product Price:");
-        jPanel11.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, -1, -1));
+        jPanel11.add(cashiersoldbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, 110, -1));
 
         jLabel7.setText("Total:");
-        jPanel11.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 100, -1, -1));
+        jPanel11.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 30, -1, -1));
 
         jLabel8.setText("Quantity:");
-        jPanel11.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 30, -1, -1));
-
-        productquantityfield.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                productquantityfieldKeyReleased(evt);
-            }
-        });
-        jPanel11.add(productquantityfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 20, 260, 30));
-        jPanel11.add(productpricefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 90, 260, 30));
+        jPanel11.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 30, -1, -1));
+        jPanel11.add(productpricefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 20, 260, 30));
 
         productscombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose a Product..." }));
         jPanel11.add(productscombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 260, 30));
@@ -281,9 +277,126 @@ public class CashierManagement extends javax.swing.JFrame {
                 productquantityfield1KeyReleased(evt);
             }
         });
-        jPanel11.add(productquantityfield1, new org.netbeans.lib.awtextra.AbsoluteConstraints(990, 20, 260, 30));
+        jPanel11.add(productquantityfield1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 260, 30));
 
-        jPanel6.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1360, 180));
+        jPanel6.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1360, 140));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "TransactionID", "Date", "InventoryID", "Product Name", "Quantity", "Total Amount", "UserID"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel6.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 830, 420));
+
+        jPanel12.setBackground(new java.awt.Color(204, 255, 204));
+
+        title.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
+        title.setText("Jul's Sari-sari Store");
+
+        datesoldlabel.setFont(new java.awt.Font("Monospaced", 0, 16)); // NOI18N
+
+        productnamelabel.setFont(new java.awt.Font("Monospaced", 0, 16)); // NOI18N
+
+        productquantitylabel.setFont(new java.awt.Font("Monospaced", 0, 16)); // NOI18N
+
+        producttotallabel.setFont(new java.awt.Font("Monospaced", 0, 16)); // NOI18N
+
+        title1.setFont(new java.awt.Font("Monospaced", 0, 16)); // NOI18N
+        title1.setText("Canlaon City, Negros Oriental");
+
+        title2.setFont(new java.awt.Font("Monospaced", 3, 16)); // NOI18N
+        title2.setText("To God Be the Glory");
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addGap(0, 135, Short.MAX_VALUE)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(title1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(78, 78, 78))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(datesoldlabel, javax.swing.GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
+                            .addComponent(productnamelabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(productquantitylabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(producttotallabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(48, 48, 48))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(title2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(119, 119, 119))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(127, 127, 127))))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(title1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(datesoldlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(productnamelabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(productquantitylabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(producttotallabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(title2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+
+        jPanel6.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 240, 520, 310));
+
+        jPanel13.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        logOutBtn1.setText("Log Out");
+        logOutBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logOutBtn1MouseClicked(evt);
+            }
+        });
+        jPanel13.add(logOutBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
+
+        cashierTransactionBtn1.setText("Home");
+        cashierTransactionBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cashierTransactionBtn1MouseClicked(evt);
+            }
+        });
+        jPanel13.add(cashierTransactionBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 170, -1));
+
+        ManageUsersBtn1.setText("Sell Products");
+        ManageUsersBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ManageUsersBtn1MouseClicked(evt);
+            }
+        });
+        jPanel13.add(ManageUsersBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, 170, -1));
+
+        staffTransactionBtn1.setText("Your Transaction");
+        staffTransactionBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                staffTransactionBtn1MouseClicked(evt);
+            }
+        });
+        jPanel13.add(staffTransactionBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 170, -1));
+
+        jPanel6.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 570, 430, 160));
 
         jTabbedPane1.addTab("", jPanel6);
 
@@ -396,7 +509,32 @@ public class CashierManagement extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("", jPanel15);
 
-        jPanel2.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 770));
+        jPanel2.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1400, 760));
+
+        jPanel5.setBackground(new java.awt.Color(102, 0, 0));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 204, 204));
+        jLabel1.setText("Cashier Management System");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 770));
 
@@ -410,7 +548,7 @@ public class CashierManagement extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE)
         );
 
         pack();
@@ -479,83 +617,6 @@ public class CashierManagement extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cashiersoldbtnMouseClicked
 
-    private void productquantityfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productquantityfieldKeyReleased
-        if ("Choose a Product...".equals(this.productscombobox.getSelectedItem()) || this.productquantityfield.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Choose a product...", "Alert", JOptionPane.ERROR_MESSAGE);
-            JOptionPane.showMessageDialog(null, "Invalid Quantity!", "Alert", JOptionPane.ERROR_MESSAGE);
-            this.productpricefield.setText("");
-
-        } else if ("Osmocote Bloom Booster Controlle".equals(this.productscombobox.getSelectedItem()) || "1".equals(this.productquantityfield.getText()) || "2".equals(this.productquantityfield.getText()) || "3".equals(this.productquantityfield.getText()) || "4".equals(this.productquantityfield.getText()) || "5".equals(this.productquantityfield.getText())) {
-            int price = 0;
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory_management_system", "root", "")) {
-                    Statement stmt = con.createStatement();
-
-                    ResultSet datas = stmt.executeQuery("SELECT * FROM `products` WHERE `quantity` = '20'");
-                    if (datas.next()) {
-                        price = datas.getInt("productPrice");
-                    }
-                }
-            } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-                System.out.println(e.getMessage());
-            }
-            this.productpricefield.setText(Integer.toString(price * Integer.parseInt(this.productquantityfield.getText())));
-        } else if ("Vermicast Organic Fertilizer".equals(this.productscombobox.getSelectedItem()) || "1".equals(this.productquantityfield.getText()) || "2".equals(this.productquantityfield.getText()) || "3".equals(this.productquantityfield.getText()) || "4".equals(this.productquantityfield.getText()) || "5".equals(this.productquantityfield.getText())) {
-            int price = 0;
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory_management_system", "root", "")) {
-                    Statement stmt = con.createStatement();
-
-                    ResultSet datas = stmt.executeQuery("SELECT * FROM `products` WHERE `quantity` = '25'");
-                    if (datas.next()) {
-                        price = datas.getInt("productPrice");
-                    }
-                }
-            } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-                System.out.println(e.getMessage());
-            }
-            this.productpricefield.setText(Integer.toString(price * Integer.parseInt(this.productquantityfield.getText())));
-
-        } else if ((this.productscombobox.getSelectedItem() == "Dragon Humus Fertilizer") || ("1".equals(this.productquantityfield.getText())) || ("2".equals(this.productquantityfield.getText())) || "3".equals(this.productquantityfield.getText()) || "4".equals(this.productquantityfield.getText()) || "5".equals(this.productquantityfield.getText())) {
-
-        } else if ((this.productscombobox.getSelectedItem() == "Dragon Humus Fertilizer") || ("1".equals(this.productquantityfield.getText())) || ("2".equals(this.productquantityfield.getText())) || "3".equals(this.productquantityfield.getText()) || "4".equals(this.productquantityfield.getText()) || "5".equals(this.productquantityfield.getText())) {
-
-            int price = 0;
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory_management_system", "root", "")) {
-                    Statement stmt = con.createStatement();
-
-                    ResultSet datas = stmt.executeQuery("SELECT * FROM `products` WHERE `quantity` = '30'");
-                    if (datas.next()) {
-                        price = datas.getInt("productPrice");
-                    }
-                }
-            } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-                System.out.println(e.getMessage());
-            }
-            this.productpricefield.setText(Integer.toString(price * Integer.parseInt(this.productquantityfield.getText())));
-        } else if ("Yara Mila Unik Fertilizer".equals(this.productscombobox.getSelectedItem()) || "1".equals(this.productquantityfield.getText()) || "2".equals(this.productquantityfield.getText()) || "3".equals(this.productquantityfield.getText()) || "4".equals(this.productquantityfield.getText()) || "5".equals(this.productquantityfield.getText())) {
-            int price = 0;
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/inventory_management_system", "root", "")) {
-                    Statement stmt = con.createStatement();
-
-                    ResultSet datas = stmt.executeQuery("SELECT * FROM `products` WHERE `quantity` = '10'");
-                    if (datas.next()) {
-                        price = datas.getInt("productPrice");
-                    }
-                }
-            } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-                System.out.println(e.getMessage());
-            }
-            this.productpricefield.setText(Integer.toString(price * Integer.parseInt(this.productquantityfield.getText())));
-        }
-    }//GEN-LAST:event_productquantityfieldKeyReleased
-
     private void productquantityfield1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productquantityfield1KeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_productquantityfield1KeyReleased
@@ -563,6 +624,22 @@ public class CashierManagement extends javax.swing.JFrame {
     private void tableproductdisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableproductdisplayMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_tableproductdisplayMouseClicked
+
+    private void logOutBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logOutBtn1MouseClicked
+
+    private void cashierTransactionBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransactionBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cashierTransactionBtn1MouseClicked
+
+    private void ManageUsersBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageUsersBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ManageUsersBtn1MouseClicked
+
+    private void staffTransactionBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_staffTransactionBtn1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -604,21 +681,25 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JButton CTmanageUsersBtn;
     private javax.swing.JButton CTstaffTransactionBtn4;
     private javax.swing.JButton ManageUsersBtn;
+    private javax.swing.JButton ManageUsersBtn1;
     private javax.swing.JButton STcashiersTransbtn;
     private javax.swing.JButton STmanageUserbtn;
     private javax.swing.JButton STstaffTransactionBtn3;
     private javax.swing.JButton cashierTransactionBtn;
+    private javax.swing.JButton cashierTransactionBtn1;
     private javax.swing.JButton cashiersoldbtn;
+    private javax.swing.JLabel datesoldlabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel18;
@@ -632,17 +713,26 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JButton logOutBtn;
+    private javax.swing.JButton logOutBtn1;
     private javax.swing.JButton logOutBtn3;
     private javax.swing.JButton logOutBtn4;
+    private javax.swing.JLabel productnamelabel;
     private javax.swing.JTextField productpricefield;
-    private javax.swing.JTextField productquantityfield;
     private javax.swing.JTextField productquantityfield1;
+    private javax.swing.JLabel productquantitylabel;
     private javax.swing.JComboBox<String> productscombobox;
+    private javax.swing.JLabel producttotallabel;
     private javax.swing.JButton staffTransactionBtn;
+    private javax.swing.JButton staffTransactionBtn1;
     private javax.swing.JTable tableproductdisplay;
+    private javax.swing.JLabel title;
+    private javax.swing.JLabel title1;
+    private javax.swing.JLabel title2;
     private javax.swing.JButton usersHomeBtn1;
     private javax.swing.JButton usersHomeBtn2;
     // End of variables declaration//GEN-END:variables

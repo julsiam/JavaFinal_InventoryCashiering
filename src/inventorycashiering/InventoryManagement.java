@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,39 +25,43 @@ public class InventoryManagement extends javax.swing.JFrame {
 
     Connection con = null;
     PreparedStatement pst = null;
+    PreparedStatement pst1 = null;
     ResultSet rs = null;
 
     public InventoryManagement() {
         initComponents();
         this.setLocationRelativeTo(null);
 
-//        displayproducts();
+        dispStaffTransaction();
         manageProduct();
     }
 
-//    public void displayproducts() {
-//        DefaultTableModel producttable = (DefaultTableModel) tableproductdisplay.getModel();
-//        int count = 0;
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
-//                Statement stmt = con.createStatement();
-//
-//                ResultSet datas = stmt.executeQuery("SELECT * FROM `inventory`");
-//                while (datas.next()) {
-//                    count = 1;
-//                    producttable.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
-//
-//                }
-//            }
-//        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
+    public void dispStaffTransaction() {
+        DefaultTableModel staffTransactionModel = (DefaultTableModel) staffTransactionTable.getModel();
+        int count = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `stransactions`");
+
+//                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
+                while (transactdata.next()) {
+                    count = 0;
+                    staffTransactionModel.addRow(new Object[]{transactdata.getString("STransactionId"), transactdata.getString("transactionDate"), transactdata.getString("userId"), transactdata.getString("InventoryId"), transactdata.getString("productName"), transactdata.getString("typeoftransaction")});
+
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
 
     public void manageProduct() {
         DefaultTableModel producttable = (DefaultTableModel) manageProductTbl.getModel();
-        int count = 0;
+
+        int stockCount;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
@@ -63,7 +69,7 @@ public class InventoryManagement extends javax.swing.JFrame {
 
                 ResultSet datas = stmt.executeQuery("SELECT * FROM `inventory`");
                 while (datas.next()) {
-                    count = 1;
+                    stockCount = 0;
                     producttable.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
 
                 }
@@ -71,6 +77,7 @@ public class InventoryManagement extends javax.swing.JFrame {
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -84,8 +91,6 @@ public class InventoryManagement extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
-        jPanel15 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
         logoutBtn = new javax.swing.JButton();
         homeManageProBtn = new javax.swing.JButton();
@@ -127,6 +132,15 @@ public class InventoryManagement extends javax.swing.JFrame {
         tranMpBtn1 = new javax.swing.JButton();
         tranTransactBtn1 = new javax.swing.JButton();
         tranHomeBtn1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        staffTransactionTable = new javax.swing.JTable();
+        jPanel13 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        staffIdField = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel15 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        staffNameField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -143,32 +157,12 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         jPanel5.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 590));
 
+        jPanel14.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel14MouseClicked(evt);
+            }
+        });
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel15.setBackground(new java.awt.Color(102, 0, 0));
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 204, 204));
-        jLabel10.setText("Inventory Management Section");
-
-        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
-        jPanel15.setLayout(jPanel15Layout);
-        jPanel15Layout.setHorizontalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                .addContainerGap(26, Short.MAX_VALUE)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel15Layout.setVerticalGroup(
-            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel15Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel10)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-
-        jPanel14.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 450, 60));
 
         jPanel17.setBackground(new java.awt.Color(153, 0, 51));
         jPanel17.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -439,6 +433,45 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         jPanel4.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(780, 430, 340, 140));
 
+        staffTransactionTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Transaction_ID", "Transaction Date", "UserID", "InventoryID", "Product Name", "Type of Transaction"
+            }
+        ));
+        staffTransactionTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                staffTransactionTableMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(staffTransactionTable);
+
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 1100, 280));
+
+        jPanel13.setBackground(new java.awt.Color(255, 204, 204));
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(102, 0, 0));
+        jLabel13.setText("Your Transaction");
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        );
+
+        jPanel4.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 310, 50));
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -452,7 +485,37 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("transaction", jPanel9);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1130, 590));
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1130, 590));
+        jPanel1.add(staffIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 60, 30));
+
+        jLabel1.setText("Your ID:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
+        jPanel15.setBackground(new java.awt.Color(102, 0, 0));
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 204, 204));
+        jLabel10.setText("Inventory Management Section");
+
+        javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
+        jPanel15.setLayout(jPanel15Layout);
+        jPanel15Layout.setHorizontalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+        jPanel15Layout.setVerticalGroup(
+            jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel15Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel10)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
+        jPanel1.add(staffNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, 200, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -462,7 +525,9 @@ public class InventoryManagement extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -553,34 +618,42 @@ public class InventoryManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_manageProductTblMouseClicked
 
     private void inventoryaddbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inventoryaddbtnMouseClicked
-
         DefaultTableModel manageinventorytablemodel = (DefaultTableModel) manageProductTbl.getModel();
-        int count;
+
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+
+        String inventoryId = productidfield.getText();
+        String productName = productnamefield.getText();
+        String buyingPrice = String.valueOf(productpricefield.getText());
+        String sellingPrice = String.valueOf(sellingpricefield.getText());
+        String quantity = String.valueOf(quantityfield.getText());
+        String uom = uomfield.getText();
+        String description = productdescriptionfield.getText();
+        String transactType = "Added Inventory";
+        String transactDate = myDateObj.format(orderDate);
+        System.out.println(transactDate);
+        String staffAccountId = staffIdField.getText();
+
+        int productcount = 0;
         try {
-            String sql = "INSERT INTO `inventory`" + "(`InventoryID`, `ProductName`, `BuyingPice`, `SellingPrice`, `Quantity`, `UnitOfMeasure`, `Description`)" + " VALUES " + "(?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `inventory`" + "(`InventoryID`,`ProductName`, `BuyingPrice`, `SellingPrice`, `Quantity`, `UnitOfMeasure`, `Description`)" + " VALUES " + "(?, ?, ?, ?, ?, ?, ?)";
+            String sql1 = "INSERT INTO `stransactions`" + "(`InventoryID`,`productName`,`Quantity`, `TypeOfTransaction`,`TransactionDate`, `userid`)" + " VALUES " + "(?, ?, ?, ?, ?, ?)";
 
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "");
             pst = con.prepareStatement(sql);
 
-            pst.setString(1, productidfield.getText());
-            pst.setString(2, productnamefield.getText());
-            pst.setString(3, productpricefield.getText());
-            pst.setString(4, sellingpricefield.getText());
-            pst.setString(5, quantityfield.getText());
-            pst.setString(6, uomfield.getText());
-            pst.setString(7, productdescriptionfield.getText());
-            pst.executeUpdate();
+            pst.setString(1, inventoryId);
+            pst.setString(2, productName);
+            pst.setString(3, buyingPrice);
+            pst.setString(4, sellingPrice);
+            pst.setString(5, quantity);
+            pst.setString(6, uom);
+            pst.setString(7, description);
 
+            pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Successfully Added Data.", "Alert", JOptionPane.INFORMATION_MESSAGE);
 
-            Statement stmt = con.createStatement();
-            Statement stmt1 = con.createStatement();
-            ResultSet datas = stmt1.executeQuery("SELECT * FROM `inventory`");
-            while (datas.next()) {
-                count = 0;
-                manageinventorytablemodel.removeRow(count);
-                manageinventorytablemodel.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
-            }
             this.productidfield.setText(null);
             this.productnamefield.setText(null);
             this.productpricefield.setText(null);
@@ -589,25 +662,126 @@ public class InventoryManagement extends javax.swing.JFrame {
             this.uomfield.setText(null);
             this.productdescriptionfield.setText(null);
 
+            Statement stmt = con.createStatement();
+            Statement stmt1 = con.createStatement();
+
+            int count;
+
+            ResultSet datas = stmt1.executeQuery("SELECT * FROM `inventory`");
+
+            while (datas.next()) {
+                productcount = 0;
+                manageinventorytablemodel.removeRow(productcount);
+                manageinventorytablemodel.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
+            }
+
+            pst1 = con.prepareStatement(sql1);
+            pst1.setString(1, inventoryId);
+            pst1.setString(2, productName);
+            pst1.setString(3, quantity);
+            pst1.setString(4, transactType);
+            pst1.setString(5, transactDate);
+            pst1.setString(6, staffAccountId);
+
+            pst1.executeUpdate();
+
+//            JOptionPane.showMessageDialog(null, "Your transaction is being recorded!", "Alert", JOptionPane.INFORMATION_MESSAGE);
         } catch (SQLException | HeadlessException e) {
             JOptionPane.showMessageDialog(null, e);
         }
+
+//        DefaultTableModel manageinventorytablemodel = (DefaultTableModel) manageProductTbl.getModel();
+//
+//        LocalDateTime myDateObj = LocalDateTime.now();
+//        DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+//
+//        String transactDate = myDateObj.format(orderDate);
+//        System.out.println(transactDate);
+//        String transactType = "Add Inventory";
+//        System.out.println(transactType);
+//  
+//
+//        int count = 0;
+//        try {
+//            String sql = "INSERT INTO `inventory`" + "(`InventoryID`, `ProductName`, `BuyingPrice`, `SellingPrice`, `Quantity`, `UnitOfMeasure`, `Description`)" + " VALUES " + "(?, ?, ?, ?, ?, ?, ?)";
+//            String sql1 = "INSERT INTO `stransactions`" + "(`InventoryID`,`productName`,`Quantity`, `TypeOfTransaction`,`TransactionDate`)" + " VALUES " + "(?, ?, ?, ?, ?)";
+//
+//            
+//            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "");
+//            pst = con.prepareStatement(sql);
+//            pst = con.prepareStatement(sql1);
+//
+//            pst.setString(1, productidfield.getText());
+//            pst.setString(2, productnamefield.getText());
+//            pst.setString(3, productpricefield.getText());
+//            pst.setString(4, sellingpricefield.getText());
+//            pst.setString(5, quantityfield.getText());
+//            pst.setString(6, uomfield.getText());
+//            pst.setString(7, productdescriptionfield.getText());
+//            pst.executeUpdate();
+//            
+//            
+//            pst1.setString(1, productidfield.getText());
+//            pst1.setString(2, productnamefield.getText());
+//            pst1.setString(3, quantityfield.getText());
+//            pst1.setString(4, (transactType));
+//            pst1.setString(5, (transactDate));
+//            
+//        
+//            pst1.executeUpdate();
+//
+//            JOptionPane.showMessageDialog(null, "Successfully Added Data.", "Alert", JOptionPane.INFORMATION_MESSAGE);
+//
+//            Statement stmt = con.createStatement();
+//            Statement stmt1 = con.createStatement();
+//            ResultSet datas = stmt1.executeQuery("SELECT * FROM `inventory`");
+//            while (datas.next()) {
+//                count = 0;
+//                manageinventorytablemodel.removeRow(count);
+//                manageinventorytablemodel.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
+//            }
+//            this.productidfield.setText(null);
+//            this.productnamefield.setText(null);
+//            this.productpricefield.setText(null);
+//            this.sellingpricefield.setText(null);
+//            this.quantityfield.setText(null);
+//            this.uomfield.setText(null);
+//            this.productdescriptionfield.setText(null);
+//
+//        } catch (SQLException | HeadlessException e) {
+//            JOptionPane.showMessageDialog(null, e);
+//        }
+
     }//GEN-LAST:event_inventoryaddbtnMouseClicked
 
     private void inventorydeletebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inventorydeletebtnMouseClicked
+
         DefaultTableModel inventoryTableModel1 = (DefaultTableModel) manageProductTbl.getModel();
         if (manageProductTbl.getSelectedRow() < 0) {
             JOptionPane.showMessageDialog(null, "Unsuccessful!", "Alert", JOptionPane.ERROR_MESSAGE);
         } else {
+            LocalDateTime myDateObj = LocalDateTime.now();
+            DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
 
+            String inventoryId = productidfield.getText();
+            String productName = productnamefield.getText();
+            String buyingPrice = String.valueOf(productpricefield.getText());
+            String sellingPrice = String.valueOf(sellingpricefield.getText());
+            String quantity = String.valueOf(quantityfield.getText());
+            String uom = uomfield.getText();
+            String description = productdescriptionfield.getText();
+            String transactType = "Delete Inventory";
+            String transactDate = myDateObj.format(orderDate);
+            System.out.println(transactDate);
+            String staffAccountId = staffIdField.getText();
             String inventoryproid = (String) inventoryTableModel1.getValueAt(manageProductTbl.getSelectedRow(), 0);
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
                     Statement stmt = con.createStatement();
                     String query = "DELETE FROM inventory WHERE inventoryID= " + inventoryproid + "";
+                    String query1 = "INSERT INTO `stransactions`" + "(`InventoryID`,`productName`,`Quantity`, `TypeOfTransaction`,`TransactionDate`, `userid`)" + " VALUES " + "(?, ?, ?, ?, ?, ?)";
                     stmt.execute(query);
-                    con.close();
                     JOptionPane.showMessageDialog(null, "Successfully Deleted.", "Alert", JOptionPane.INFORMATION_MESSAGE);
                     inventoryTableModel1.removeRow(manageProductTbl.getSelectedRow());
 
@@ -618,21 +792,78 @@ public class InventoryManagement extends javax.swing.JFrame {
                     this.quantityfield.setText(null);
                     this.uomfield.setText(null);
                     this.productdescriptionfield.setText(null);
+
+                    pst1 = con.prepareStatement(query1);
+                    pst1.setString(1, inventoryId);
+                    pst1.setString(2, productName);
+                    pst1.setString(3, quantity);
+                    pst1.setString(4, transactType);
+                    pst1.setString(5, transactDate);
+                    pst1.setString(6, staffAccountId);
+                    pst1.executeUpdate();
                 }
             } catch (HeadlessException | ClassNotFoundException | SQLException e) {
                 System.out.println(e.getMessage());
                 JOptionPane.showMessageDialog(null, "Unsuccessful!", "Alert", JOptionPane.ERROR_MESSAGE);
             }
         }
+
+       
+
+//        DefaultTableModel inventoryTableModel1 = (DefaultTableModel) manageProductTbl.getModel();
+//        if (manageProductTbl.getSelectedRow() < 0) {
+//            JOptionPane.showMessageDialog(null, "Unsuccessful!", "Alert", JOptionPane.ERROR_MESSAGE);
+//        } else {
+//
+//            String inventoryproid = (String) inventoryTableModel1.getValueAt(manageProductTbl.getSelectedRow(), 0);
+//            try {
+//                Class.forName("com.mysql.jdbc.Driver");
+//                try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+//                    Statement stmt = con.createStatement();
+//                    String query = "DELETE FROM inventory WHERE inventoryID= " + inventoryproid + "";
+//                    stmt.execute(query);
+//                    con.close();
+//                    JOptionPane.showMessageDialog(null, "Successfully Deleted.", "Alert", JOptionPane.INFORMATION_MESSAGE);
+//                    inventoryTableModel1.removeRow(manageProductTbl.getSelectedRow());
+//
+//                    this.productidfield.setText(null);
+//                    this.productnamefield.setText(null);
+//                    this.productpricefield.setText(null);
+//                    this.sellingpricefield.setText(null);
+//                    this.quantityfield.setText(null);
+//                    this.uomfield.setText(null);
+//                    this.productdescriptionfield.setText(null);
+//                }
+//            } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+//                System.out.println(e.getMessage());
+//                JOptionPane.showMessageDialog(null, "Unsuccessful!", "Alert", JOptionPane.ERROR_MESSAGE);
+//            }
+//        }
     }//GEN-LAST:event_inventorydeletebtnMouseClicked
 
     private void inventoryupdatebtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inventoryupdatebtnMouseClicked
 
         DefaultTableModel manageinventtablemodel = (DefaultTableModel) manageProductTbl.getModel();
 
+
         if ("".equals(productnamefield.getText()) && "".equals(productpricefield.getText())) {
             JOptionPane.showMessageDialog(null, "No Selected Product!", "Alert", JOptionPane.ERROR_MESSAGE);
         } else {
+            LocalDateTime myDateObj = LocalDateTime.now();
+            DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+
+            String inventoryId = productidfield.getText();
+            String productName = productnamefield.getText();
+            String buyingPrice = String.valueOf(productpricefield.getText());
+            String sellingPrice = String.valueOf(sellingpricefield.getText());
+            String quantity = String.valueOf(quantityfield.getText());
+            String uom = uomfield.getText();
+            String description = productdescriptionfield.getText();
+            String transactType = "Update Inventory";
+            String transactDate = myDateObj.format(orderDate);
+            System.out.println(transactDate);
+            String staffAccountId = staffIdField.getText();
+            String inventoryproid = (String) manageinventtablemodel.getValueAt(manageProductTbl.getSelectedRow(), 0);
             String proid = (String) manageinventtablemodel.getValueAt(manageProductTbl.getSelectedRow(), 0);
 
             int count;
@@ -642,6 +873,8 @@ public class InventoryManagement extends javax.swing.JFrame {
                     Statement stmt = con.createStatement();
                     Statement stmt1 = con.createStatement();
                     String query = "UPDATE `inventory` SET `productName`='" + this.productnamefield.getText() + "',`BuyingPrice`='" + this.productpricefield.getText() + "',`SellingPrice`='" + this.sellingpricefield.getText() + "',`Quantity`='" + this.sellingpricefield.getText() + "',`UnitOfMeasure`='" + this.sellingpricefield.getText() + "',`description`='" + this.productdescriptionfield.getText() + "' WHERE  inventoryID = '" + proid + "'";
+                    String query1 = "INSERT INTO `stransactions`" + "(`InventoryID`,`productName`,`Quantity`, `TypeOfTransaction`,`TransactionDate`, `userid`)" + " VALUES " + "(?, ?, ?, ?, ?, ?)";
+
                     stmt.execute(query);
                     this.productidfield.setText(null);
                     this.productnamefield.setText(null);
@@ -650,6 +883,15 @@ public class InventoryManagement extends javax.swing.JFrame {
                     this.quantityfield.setText(null);
                     this.uomfield.setText(null);
                     this.productdescriptionfield.setText(null);
+                    
+                    pst1 = con.prepareStatement(query1);
+                    pst1.setString(1, inventoryId);
+                    pst1.setString(2, productName);
+                    pst1.setString(3, quantity);
+                    pst1.setString(4, transactType);
+                    pst1.setString(5, transactDate);
+                    pst1.setString(6, staffAccountId);
+                    pst1.executeUpdate();
 
                     ResultSet datas = stmt1.executeQuery("SELECT * FROM `inventory`");
                     while (datas.next()) {
@@ -678,7 +920,7 @@ public class InventoryManagement extends javax.swing.JFrame {
 
     private void murResetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_murResetBtnActionPerformed
         if (evt.getSource() == murResetBtn) {
-            this.productidfield.setText(null);           
+            this.productidfield.setText(null);
             this.productidfield.setEditable(true);
             this.productnamefield.setText(null);
             this.productpricefield.setText(null);
@@ -696,6 +938,14 @@ public class InventoryManagement extends javax.swing.JFrame {
     private void tranHomeBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tranHomeBtn1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tranHomeBtn1ActionPerformed
+
+    private void staffTransactionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionTableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_staffTransactionTableMouseClicked
+
+    private void jPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseClicked
+
+    }//GEN-LAST:event_jPanel14MouseClicked
 
     /**
      * @param args the command line arguments
@@ -739,9 +989,11 @@ public class InventoryManagement extends javax.swing.JFrame {
     private javax.swing.JButton inventoryaddbtn;
     private javax.swing.JButton inventorydeletebtn;
     private javax.swing.JButton inventoryupdatebtn;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -752,6 +1004,7 @@ public class InventoryManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel17;
@@ -764,6 +1017,7 @@ public class InventoryManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton logOutbtn;
     private javax.swing.JButton logOutbtn1;
@@ -779,6 +1033,9 @@ public class InventoryManagement extends javax.swing.JFrame {
     private javax.swing.JTextField productpricefield;
     private javax.swing.JTextField quantityfield;
     private javax.swing.JTextField sellingpricefield;
+    public javax.swing.JTextField staffIdField;
+    public javax.swing.JTextField staffNameField;
+    private javax.swing.JTable staffTransactionTable;
     private javax.swing.JButton tranHomeBtn1;
     private javax.swing.JButton tranMpBtn1;
     private javax.swing.JButton tranTransactBtn1;
