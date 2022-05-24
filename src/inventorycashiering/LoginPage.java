@@ -255,8 +255,6 @@ public class LoginPage extends javax.swing.JFrame {
 
         if ("".equals(this.emailField.getText()) || "".equals(this.passwordFied.getText())) {
             JOptionPane.showMessageDialog(this, "Fill up the missing field!", "Alert", JOptionPane.ERROR_MESSAGE);
-            emailField.setText("");
-            passwordFied.setText("");
 
         } else {
             try {
@@ -272,19 +270,16 @@ public class LoginPage extends javax.swing.JFrame {
                     if (rs.next()) {
                         String role = rs.getString("Role");
                         String status = rs.getString("Status");
-//                        String staffid = rs.getString("UserID");
                         if ("Admin".equals(role) && "Active".equals(status)) {
                             new AdminManagement().setVisible(true);
                             this.setVisible(false);
                         } else if ("Staff".equals(role) && "Active".equals(status)) {
-                         
-//                            new InventoryManagement().setVisible(true);
-//                            this.setVisible(false);
                             InventoryManagement im = new InventoryManagement();
                             im.setVisible(true);
                             im.staffIdField.setEditable(false);
                             im.staffIdField.setText(rs.getString("UserID"));
-                            im.staffNameField.setText("Welcome on board " + rs.getString("firstname"));
+                            im.staffNameField.setEditable(false);
+                            im.staffNameField.setText("    Welcome on board " + rs.getString("firstname"));
                             this.dispose();
 
                         } else if ("Cashier".equals(role) && "Active".equals(status)) {
@@ -297,7 +292,6 @@ public class LoginPage extends javax.swing.JFrame {
                         }
                     } else {
                         JOptionPane.showMessageDialog(this, "This account doesn't exist!", "Alert", JOptionPane.ERROR_MESSAGE);
-                        emailField.setText("");
                         passwordFied.setText("");
                     }
 

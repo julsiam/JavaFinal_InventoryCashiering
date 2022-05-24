@@ -136,6 +136,7 @@ public class InventoryManagement extends javax.swing.JFrame {
         staffTransactionTable = new javax.swing.JTable();
         jPanel13 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
+        transactRefreshBtn = new javax.swing.JButton();
         staffIdField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
@@ -306,7 +307,7 @@ public class InventoryManagement extends javax.swing.JFrame {
                 inventoryaddbtnMouseClicked(evt);
             }
         });
-        jPanel3.add(inventoryaddbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 520, -1, -1));
+        jPanel3.add(inventoryaddbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 520, -1, -1));
 
         inventorydeletebtn.setText("Delete");
         inventorydeletebtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -314,7 +315,7 @@ public class InventoryManagement extends javax.swing.JFrame {
                 inventorydeletebtnMouseClicked(evt);
             }
         });
-        jPanel3.add(inventorydeletebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 520, 80, -1));
+        jPanel3.add(inventorydeletebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 520, 80, -1));
 
         inventoryupdatebtn.setText("Update");
         inventoryupdatebtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -327,7 +328,7 @@ public class InventoryManagement extends javax.swing.JFrame {
                 inventoryupdatebtnActionPerformed(evt);
             }
         });
-        jPanel3.add(inventoryupdatebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 520, 80, -1));
+        jPanel3.add(inventoryupdatebtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 520, 80, -1));
 
         jLabel5.setText("InventoryID:");
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, -1, -1));
@@ -369,7 +370,7 @@ public class InventoryManagement extends javax.swing.JFrame {
                 murResetBtnActionPerformed(evt);
             }
         });
-        jPanel3.add(murResetBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 520, 78, -1));
+        jPanel3.add(murResetBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 520, 78, -1));
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -448,7 +449,7 @@ public class InventoryManagement extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(staffTransactionTable);
 
-        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 1100, 280));
+        jPanel4.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 1100, 300));
 
         jPanel13.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -472,6 +473,14 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         jPanel4.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 310, 50));
 
+        transactRefreshBtn.setText("Refresh");
+        transactRefreshBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                transactRefreshBtnMouseClicked(evt);
+            }
+        });
+        jPanel4.add(transactRefreshBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 460, -1, -1));
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -486,7 +495,7 @@ public class InventoryManagement extends javax.swing.JFrame {
         jTabbedPane1.addTab("transaction", jPanel9);
 
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1130, 590));
-        jPanel1.add(staffIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 60, 30));
+        jPanel1.add(staffIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 40, 30));
 
         jLabel1.setText("Your ID:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
@@ -515,7 +524,7 @@ public class InventoryManagement extends javax.swing.JFrame {
         );
 
         jPanel1.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
-        jPanel1.add(staffNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 20, 200, 30));
+        jPanel1.add(staffNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 20, 190, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -554,8 +563,13 @@ public class InventoryManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_homeHomeBtnMouseClicked
 
     private void logoutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutBtnMouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
     }//GEN-LAST:event_logoutBtnMouseClicked
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
@@ -567,8 +581,13 @@ public class InventoryManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_mpTransactBtnMouseClicked
 
     private void logOutbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutbtnMouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
     }//GEN-LAST:event_logOutbtnMouseClicked
 
     private void mpMpBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mpMpBtnMouseClicked
@@ -576,8 +595,13 @@ public class InventoryManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_mpMpBtnMouseClicked
 
     private void logOutbtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutbtn1MouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
     }//GEN-LAST:event_logOutbtn1MouseClicked
 
     private void tranMpBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tranMpBtn1MouseClicked
@@ -758,7 +782,7 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         DefaultTableModel inventoryTableModel1 = (DefaultTableModel) manageProductTbl.getModel();
         if (manageProductTbl.getSelectedRow() < 0) {
-            JOptionPane.showMessageDialog(null, "Unsuccessful!", "Alert", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Select Row to Delete!", "Alert", JOptionPane.ERROR_MESSAGE);
         } else {
             LocalDateTime myDateObj = LocalDateTime.now();
             DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
@@ -782,8 +806,16 @@ public class InventoryManagement extends javax.swing.JFrame {
                     String query = "DELETE FROM inventory WHERE inventoryID= " + inventoryproid + "";
                     String query1 = "INSERT INTO `stransactions`" + "(`InventoryID`,`productName`,`Quantity`, `TypeOfTransaction`,`TransactionDate`, `userid`)" + " VALUES " + "(?, ?, ?, ?, ?, ?)";
                     stmt.execute(query);
-                    JOptionPane.showMessageDialog(null, "Successfully Deleted.", "Alert", JOptionPane.INFORMATION_MESSAGE);
-                    inventoryTableModel1.removeRow(manageProductTbl.getSelectedRow());
+
+                    int a = JOptionPane.showConfirmDialog(null, "Are you sure?", "Warning", JOptionPane.YES_NO_OPTION);
+                    if (a == JOptionPane.YES_OPTION) {
+                        stmt.execute(query);
+                        con.close();
+                        JOptionPane.showMessageDialog(null, "Successfully Deleted.", "Alert", JOptionPane.INFORMATION_MESSAGE);
+                        inventoryTableModel1.removeRow(manageProductTbl.getSelectedRow());
+                    } else {
+                        JOptionPane.getRootFrame().dispose();
+                    }
 
                     this.productidfield.setText(null);
                     this.productnamefield.setText(null);
@@ -807,8 +839,6 @@ public class InventoryManagement extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Unsuccessful!", "Alert", JOptionPane.ERROR_MESSAGE);
             }
         }
-
-       
 
 //        DefaultTableModel inventoryTableModel1 = (DefaultTableModel) manageProductTbl.getModel();
 //        if (manageProductTbl.getSelectedRow() < 0) {
@@ -845,7 +875,6 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         DefaultTableModel manageinventtablemodel = (DefaultTableModel) manageProductTbl.getModel();
 
-
         if ("".equals(productnamefield.getText()) && "".equals(productpricefield.getText())) {
             JOptionPane.showMessageDialog(null, "No Selected Product!", "Alert", JOptionPane.ERROR_MESSAGE);
         } else {
@@ -863,7 +892,7 @@ public class InventoryManagement extends javax.swing.JFrame {
             String transactDate = myDateObj.format(orderDate);
             System.out.println(transactDate);
             String staffAccountId = staffIdField.getText();
-            String inventoryproid = (String) manageinventtablemodel.getValueAt(manageProductTbl.getSelectedRow(), 0);
+
             String proid = (String) manageinventtablemodel.getValueAt(manageProductTbl.getSelectedRow(), 0);
 
             int count;
@@ -872,7 +901,7 @@ public class InventoryManagement extends javax.swing.JFrame {
                 try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
                     Statement stmt = con.createStatement();
                     Statement stmt1 = con.createStatement();
-                    String query = "UPDATE `inventory` SET `productName`='" + this.productnamefield.getText() + "',`BuyingPrice`='" + this.productpricefield.getText() + "',`SellingPrice`='" + this.sellingpricefield.getText() + "',`Quantity`='" + this.sellingpricefield.getText() + "',`UnitOfMeasure`='" + this.sellingpricefield.getText() + "',`description`='" + this.productdescriptionfield.getText() + "' WHERE  inventoryID = '" + proid + "'";
+                    String query = "UPDATE `inventory` SET `productName`='" + this.productnamefield.getText() + "',`BuyingPrice`='" + this.productpricefield.getText() + "',`SellingPrice`='" + this.sellingpricefield.getText() + "',`Quantity`='" + this.quantityfield.getText() + "',`UnitOfMeasure`='" + this.uomfield.getText() + "',`description`='" + this.productdescriptionfield.getText() + "' WHERE  inventoryID = '" + proid + "'";
                     String query1 = "INSERT INTO `stransactions`" + "(`InventoryID`,`productName`,`Quantity`, `TypeOfTransaction`,`TransactionDate`, `userid`)" + " VALUES " + "(?, ?, ?, ?, ?, ?)";
 
                     stmt.execute(query);
@@ -883,7 +912,7 @@ public class InventoryManagement extends javax.swing.JFrame {
                     this.quantityfield.setText(null);
                     this.uomfield.setText(null);
                     this.productdescriptionfield.setText(null);
-                    
+
                     pst1 = con.prepareStatement(query1);
                     pst1.setString(1, inventoryId);
                     pst1.setString(2, productName);
@@ -899,7 +928,6 @@ public class InventoryManagement extends javax.swing.JFrame {
                         manageinventtablemodel.removeRow(count);
                         manageinventtablemodel.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
                     }
-
                     con.close();
                     JOptionPane.showMessageDialog(null, "Successfully Updated.", "Alert", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -946,6 +974,59 @@ public class InventoryManagement extends javax.swing.JFrame {
     private void jPanel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel14MouseClicked
 
     }//GEN-LAST:event_jPanel14MouseClicked
+
+    private void transactRefreshBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transactRefreshBtnMouseClicked
+        DefaultTableModel staffTransactionModel = (DefaultTableModel) staffTransactionTable.getModel();
+
+        int count = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `stransactions`");
+
+                //                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
+                while (staffTransactionModel.getRowCount() > 0) {
+                    staffTransactionModel.removeRow(0);
+                }
+
+                while (transactdata.next()) {
+                    count = 0;
+                    staffTransactionModel.addRow(new Object[]{transactdata.getString("STransactionId"), transactdata.getString("transactionDate"), transactdata.getString("userId"), transactdata.getString("InventoryId"), transactdata.getString("productName"), transactdata.getString("typeoftransaction")});
+
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        //        try {
+        //            PreparedStatement ps;
+        //            String Query = "Select * from stransactions";
+        //            ps = DB_Connector.getConnection().prepareStatement(Query);
+        //
+        //            DefaultTableModel tbModel = (DefaultTableModel) transactionTable.getModel();
+        //            while (tbModel.getRowCount() > 0) {
+        //                tbModel.removeRow(0);
+        //            }
+        //            ResultSet rs = ps.executeQuery(Query);
+        //            while (rs.next()) {
+        //                String transactionID = rs.getString("STransactionId");
+        //                String productId = rs.getString("ProdID");
+        //                String quantity = rs.getString("Quantity");
+        //                String tot = rs.getString("TypeOfTransaction");
+        //                String userid = rs.getString("UserID");
+        //                String date = rs.getString("Date");
+        //
+        //                String tbData[] = {transactionID, productId, quantity, tot, userid, date};
+        //                tbModel.addRow(tbData);
+        //            }
+        //
+        //        } catch (SQLException ex) {
+        //
+        //        }
+
+    }//GEN-LAST:event_transactRefreshBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1039,6 +1120,7 @@ public class InventoryManagement extends javax.swing.JFrame {
     private javax.swing.JButton tranHomeBtn1;
     private javax.swing.JButton tranMpBtn1;
     private javax.swing.JButton tranTransactBtn1;
+    private javax.swing.JButton transactRefreshBtn;
     private javax.swing.JTextField uomfield;
     // End of variables declaration//GEN-END:variables
 }
