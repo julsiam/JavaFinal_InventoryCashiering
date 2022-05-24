@@ -848,23 +848,43 @@ public class AdminManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_addBtnMouseClicked
 
     private void logOutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtnMouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
     }//GEN-LAST:event_logOutBtnMouseClicked
 
     private void logOutBtn2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn2MouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
     }//GEN-LAST:event_logOutBtn2MouseClicked
 
     private void logOutBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn4MouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
     }//GEN-LAST:event_logOutBtn4MouseClicked
 
     private void logOutBtn3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn3MouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
     }//GEN-LAST:event_logOutBtn3MouseClicked
 
     private void murResetBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_murResetBtnActionPerformed

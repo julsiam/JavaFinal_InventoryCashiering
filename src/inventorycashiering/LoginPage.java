@@ -283,8 +283,13 @@ public class LoginPage extends javax.swing.JFrame {
                             this.dispose();
 
                         } else if ("Cashier".equals(role) && "Active".equals(status)) {
-                            new CashierManagement().setVisible(true);
-                            this.setVisible(false);
+                            CashierManagement cm = new CashierManagement();
+                            cm.setVisible(true);
+                            cm.cashierIdField.setEditable(false);
+                            cm.cashierIdField.setText(rs.getString("UserID"));
+                            cm.cashierNameField.setEditable(false);
+                            cm.cashierNameField.setText("    Welcome on board " + rs.getString("firstname"));
+                            this.dispose();
                         } else {
                             JOptionPane.showMessageDialog(this, "This " + role + " account is not yet approved!", "Alert", JOptionPane.WARNING_MESSAGE);
                             emailField.setText("");

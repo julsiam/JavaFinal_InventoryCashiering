@@ -5,7 +5,6 @@
  */
 package inventorycashiering;
 
-
 import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -30,7 +29,7 @@ public class CashierManagement extends javax.swing.JFrame {
     public CashierManagement() {
         initComponents();
         this.setLocationRelativeTo(null);
-       
+
         displayproducts();
         comboSql();
     }
@@ -53,7 +52,7 @@ public class CashierManagement extends javax.swing.JFrame {
             System.out.println(e.getMessage());
         }
     }
-    
+
     private void comboSql() {
         try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
             Class.forName("com.mysql.jdbc.Driver");
@@ -70,7 +69,6 @@ public class CashierManagement extends javax.swing.JFrame {
 
         }
     }
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,15 +93,15 @@ public class CashierManagement extends javax.swing.JFrame {
         jPanel10 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
-        cashiersoldbtn = new javax.swing.JButton();
+        cashierSellBtn = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        productpricefield = new javax.swing.JTextField();
+        totalAmountField = new javax.swing.JTextField();
         productscombobox = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        productquantityfield1 = new javax.swing.JTextField();
+        productquantityfield = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        sellDetailsTables = new javax.swing.JTable();
         jPanel12 = new javax.swing.JPanel();
         title = new javax.swing.JLabel();
         datesoldlabel = new javax.swing.JLabel();
@@ -134,6 +132,9 @@ public class CashierManagement extends javax.swing.JFrame {
         usersHomeBtn1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        cashierIdField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        cashierNameField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -187,7 +188,7 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jPanel9.add(staffTransactionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 170, -1));
 
-        jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 430, 430, 180));
+        jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 470, 430, 180));
 
         tableproductdisplay.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -204,9 +205,9 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tableproductdisplay);
 
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 30, 850, 210));
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 850, 390));
 
-        jPanel7.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 860, 690));
+        jPanel7.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 860, 730));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -251,20 +252,20 @@ public class CashierManagement extends javax.swing.JFrame {
         jPanel11.setBackground(new java.awt.Color(0, 204, 153));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        cashiersoldbtn.setText("Sell");
-        cashiersoldbtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        cashierSellBtn.setText("Sell");
+        cashierSellBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cashiersoldbtnMouseClicked(evt);
+                cashierSellBtnMouseClicked(evt);
             }
         });
-        jPanel11.add(cashiersoldbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, 110, -1));
+        jPanel11.add(cashierSellBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, 110, -1));
 
         jLabel7.setText("Total:");
         jPanel11.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 30, -1, -1));
 
         jLabel8.setText("Quantity:");
         jPanel11.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 30, -1, -1));
-        jPanel11.add(productpricefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 20, 260, 30));
+        jPanel11.add(totalAmountField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 20, 260, 30));
 
         productscombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose a Product..." }));
         jPanel11.add(productscombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 260, 30));
@@ -272,24 +273,29 @@ public class CashierManagement extends javax.swing.JFrame {
         jLabel9.setText("Product Name:");
         jPanel11.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
-        productquantityfield1.addKeyListener(new java.awt.event.KeyAdapter() {
+        productquantityfield.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                productquantityfield1KeyReleased(evt);
+                productquantityfieldKeyReleased(evt);
             }
         });
-        jPanel11.add(productquantityfield1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 260, 30));
+        jPanel11.add(productquantityfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 260, 30));
 
         jPanel6.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1360, 140));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        sellDetailsTables.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "TransactionID", "Date", "InventoryID", "Product Name", "Quantity", "Total Amount", "UserID"
+                "TransactionID", "Date", "Product Name", "Quantity", "Total Amount"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        sellDetailsTables.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sellDetailsTablesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(sellDetailsTables);
 
         jPanel6.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 830, 420));
 
@@ -535,6 +541,11 @@ public class CashierManagement extends javax.swing.JFrame {
         );
 
         jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, -1, -1));
+        jPanel2.add(cashierIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 40, 30));
+
+        jLabel4.setText("Your ID:");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+        jPanel2.add(cashierNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 20, 190, 30));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 770));
 
@@ -613,13 +624,79 @@ public class CashierManagement extends javax.swing.JFrame {
         jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_usersHomeBtn1MouseClicked
 
-    private void cashiersoldbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashiersoldbtnMouseClicked
+    private void cashierSellBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierSellBtnMouseClicked
+        DefaultTableModel cashierTableModel = (DefaultTableModel) sellDetailsTables.getModel();
 
-    }//GEN-LAST:event_cashiersoldbtnMouseClicked
+        LocalDateTime myDateObj = LocalDateTime.now();
+        DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
 
-    private void productquantityfield1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productquantityfield1KeyReleased
+        String newOrderDate = myDateObj.format(orderDate);
+
+        String productname = this.productscombobox.getSelectedItem().toString();
+        String amount = this.totalAmountField.getText();
+        String quantity = this.productquantityfield.getText();
+        String cashierAccountId = cashierIdField.getText();
+
+        if ("Choose a Product...".equals(this.productscombobox.getSelectedItem()) || this.productquantityfield.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Choose a product...", "Alert", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Invalid Quantity!", "Alert", JOptionPane.ERROR_MESSAGE);
+            this.totalAmountField.setText("");
+
+        } else {
+            this.title.setText("Jul's Sari-sari Store");
+            this.datesoldlabel.setText("Date: " + myDateObj.format(orderDate));
+            this.productnamelabel.setText("Product Name: " + (String) this.productscombobox.getSelectedItem());
+            this.productquantitylabel.setText("Quantity: " + Integer.parseInt(this.productquantityfield.getText()) + " pack/s");
+            this.producttotallabel.setText("Total: Php " + Integer.parseInt(this.totalAmountField.getText()) + ".00");
+
+            try {
+
+                try {
+                    Class.forName("com.mysql.jdbc.Driver");
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(CashierManagement.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try (Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                    Statement stmt = con.createStatement();
+                    String query1 = "INSERT INTO `CTransactions`(`date`, `productName`, `Quantity`, `totalAmount`, `UserID`) VALUES"
+                            + "('" + newOrderDate + "','" + productname + "','" + quantity + "','" + amount + "','" + cashierAccountId + "')";
+                    int count;
+                    ResultSet data = stmt.executeQuery("SELECT * FROM `inventory`");
+                    if (data.next()) {
+                        int qnty = Integer.parseInt(data.getString("quantity")) - Integer.parseInt(this.productquantityfield.getText());
+                        System.out.println(data.getString("quantity"));
+                        System.out.println(qnty);
+
+                        String newQnty = Integer.toString(qnty);
+                        String query2 = "UPDATE `inventory` SET `quantity`='" + newQnty + "'";
+                        stmt.executeUpdate(query2);
+
+                    }
+
+                    ResultSet newData = stmt.executeQuery("SELECT * FROM `ctransactions`");
+                    while (newData.next()) {
+                        count = 0;
+                        cashierTableModel.removeRow(count);
+                        cashierTableModel.addRow(new Object[]{newData.getString("CTransactionId"), newData.getString("Date"), newData.getString("productName"), newData.getString("Quantity"), newData.getString("totalAmount"), newData.getString("userID")});
+                    }
+                    con.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            this.productscombobox.setSelectedIndex(0);
+            this.productquantityfield.setText(null);
+            this.totalAmountField.setText(null);
+
+        }
+
+
+    }//GEN-LAST:event_cashierSellBtnMouseClicked
+
+    private void productquantityfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productquantityfieldKeyReleased
         // TODO add your handling code here:
-    }//GEN-LAST:event_productquantityfield1KeyReleased
+    }//GEN-LAST:event_productquantityfieldKeyReleased
 
     private void tableproductdisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableproductdisplayMouseClicked
         // TODO add your handling code here:
@@ -640,6 +717,35 @@ public class CashierManagement extends javax.swing.JFrame {
     private void staffTransactionBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionBtn1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_staffTransactionBtn1MouseClicked
+
+    private void sellDetailsTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellDetailsTablesMouseClicked
+//        DefaultTableModel sellingTableModel = (DefaultTableModel) sellDetailsTables.getModel();
+//        LocalDateTime myDateObj = LocalDateTime.now();
+//        DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+//
+//        String newOrderDate = myDateObj.format(orderDate);
+//
+//        String trnsactionId = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 0);
+//        String date = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 1);
+//        String buyingPrice = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 2);
+//        String sellingPrice = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 3);
+//        String quantity = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 4);
+//        String unitofmeasure = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 5);
+//        String description = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 6);
+//        String threshold = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 7);
+//        String inventoryStatus = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 8);
+//
+//        this.productidfield.setText(proid);
+//        this.productidfield.setEditable(false);
+//        this.newOrderDate.setText(newOrderDate);
+//        this.productpricefield.setText(buyingPrice);
+//        this.sellingpricefield.setText(sellingPrice);
+//        this.quantityfield.setText(quantity);
+//        this.uomfield.setText(unitofmeasure);
+//        this.productdescriptionfield.setText(description);
+//        this.statusField.setText(inventoryStatus);
+//        this.thresholdField.setText(threshold);
+    }//GEN-LAST:event_sellDetailsTablesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -685,13 +791,16 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JButton STcashiersTransbtn;
     private javax.swing.JButton STmanageUserbtn;
     private javax.swing.JButton STstaffTransactionBtn3;
+    public javax.swing.JTextField cashierIdField;
+    public javax.swing.JTextField cashierNameField;
+    private javax.swing.JButton cashierSellBtn;
     private javax.swing.JButton cashierTransactionBtn;
     private javax.swing.JButton cashierTransactionBtn1;
-    private javax.swing.JButton cashiersoldbtn;
     private javax.swing.JLabel datesoldlabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -716,23 +825,23 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton logOutBtn;
     private javax.swing.JButton logOutBtn1;
     private javax.swing.JButton logOutBtn3;
     private javax.swing.JButton logOutBtn4;
     private javax.swing.JLabel productnamelabel;
-    private javax.swing.JTextField productpricefield;
-    private javax.swing.JTextField productquantityfield1;
+    private javax.swing.JTextField productquantityfield;
     private javax.swing.JLabel productquantitylabel;
     private javax.swing.JComboBox<String> productscombobox;
     private javax.swing.JLabel producttotallabel;
+    private javax.swing.JTable sellDetailsTables;
     private javax.swing.JButton staffTransactionBtn;
     private javax.swing.JButton staffTransactionBtn1;
     private javax.swing.JTable tableproductdisplay;
     private javax.swing.JLabel title;
     private javax.swing.JLabel title1;
     private javax.swing.JLabel title2;
+    private javax.swing.JTextField totalAmountField;
     private javax.swing.JButton usersHomeBtn1;
     private javax.swing.JButton usersHomeBtn2;
     // End of variables declaration//GEN-END:variables

@@ -70,7 +70,7 @@ public class InventoryManagement extends javax.swing.JFrame {
                 ResultSet datas = stmt.executeQuery("SELECT * FROM `inventory`");
                 while (datas.next()) {
                     stockCount = 0;
-                    producttable.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
+                    producttable.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description"), datas.getString("stockThreshold"), datas.getString("thresholdStatus")});
 
                 }
             }
@@ -125,6 +125,10 @@ public class InventoryManagement extends javax.swing.JFrame {
         uomfield = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         murResetBtn = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        statusField = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        thresholdField = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
@@ -247,7 +251,7 @@ public class InventoryManagement extends javax.swing.JFrame {
 
             },
             new String [] {
-                "InventoryID", "Product Name", "Buying Price", "Selling Price", "Quantity", "UoM", "Description"
+                "InventoryID", "Product Name", "Buying Price", "Selling Price", "Quantity", "UoM", "Description", "Stock Threshold", "Treshold Status"
             }
         ));
         manageProductTbl.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -332,37 +336,43 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         jLabel5.setText("InventoryID:");
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 360, -1, -1));
-        jPanel3.add(productnamefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 183, -1));
+        jPanel3.add(productnamefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 360, 183, -1));
 
         jLabel6.setText("Product Name:");
-        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, -1));
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 360, -1, -1));
         jPanel3.add(productidfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 360, 183, -1));
 
         jLabel7.setText("Buying Price:");
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, -1, -1));
-        jPanel3.add(sellingpricefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 360, 183, -1));
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 360, -1, -1));
+        jPanel3.add(sellingpricefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 400, 183, -1));
 
         jLabel8.setText("Selling Price:");
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 360, -1, -1));
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 400, -1, -1));
 
         productpricefield.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 productpricefieldActionPerformed(evt);
             }
         });
-        jPanel3.add(productpricefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 440, 183, -1));
-        jPanel3.add(productdescriptionfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 480, 450, -1));
+        jPanel3.add(productpricefield, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 360, 183, -1));
+        jPanel3.add(productdescriptionfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 480, 390, -1));
 
         jLabel9.setText("Description:");
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 480, -1, -1));
-        jPanel3.add(quantityfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 183, -1));
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 480, -1, -1));
+
+        quantityfield.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                quantityfieldKeyReleased(evt);
+            }
+        });
+        jPanel3.add(quantityfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 440, 183, -1));
 
         jLabel11.setText("Quantity:");
-        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 400, -1, -1));
-        jPanel3.add(uomfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 440, 183, -1));
+        jPanel3.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, -1, -1));
+        jPanel3.add(uomfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 400, 183, -1));
 
         jLabel12.setText("UoM:");
-        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 440, -1, -1));
+        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 400, -1, -1));
 
         murResetBtn.setText("Reset");
         murResetBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -371,6 +381,20 @@ public class InventoryManagement extends javax.swing.JFrame {
             }
         });
         jPanel3.add(murResetBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 520, 78, -1));
+
+        jLabel14.setText("Threshold Status: ");
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 440, -1, -1));
+
+        statusField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusFieldActionPerformed(evt);
+            }
+        });
+        jPanel3.add(statusField, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 440, 180, -1));
+
+        jLabel16.setText("Stock Threshold:");
+        jPanel3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 400, -1, -1));
+        jPanel3.add(thresholdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 400, 180, -1));
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -630,6 +654,8 @@ public class InventoryManagement extends javax.swing.JFrame {
         String quantity = (String) inventoryTableModel.getValueAt(manageProductTbl.getSelectedRow(), 4);
         String unitofmeasure = (String) inventoryTableModel.getValueAt(manageProductTbl.getSelectedRow(), 5);
         String description = (String) inventoryTableModel.getValueAt(manageProductTbl.getSelectedRow(), 6);
+        String threshold = (String) inventoryTableModel.getValueAt(manageProductTbl.getSelectedRow(), 7);
+        String inventoryStatus = (String) inventoryTableModel.getValueAt(manageProductTbl.getSelectedRow(), 8);
 
         this.productidfield.setText(proid);
         this.productidfield.setEditable(false);
@@ -639,6 +665,8 @@ public class InventoryManagement extends javax.swing.JFrame {
         this.quantityfield.setText(quantity);
         this.uomfield.setText(unitofmeasure);
         this.productdescriptionfield.setText(description);
+        this.statusField.setText(inventoryStatus);
+        this.thresholdField.setText(threshold);
     }//GEN-LAST:event_manageProductTblMouseClicked
 
     private void inventoryaddbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_inventoryaddbtnMouseClicked
@@ -658,10 +686,12 @@ public class InventoryManagement extends javax.swing.JFrame {
         String transactDate = myDateObj.format(orderDate);
         System.out.println(transactDate);
         String staffAccountId = staffIdField.getText();
+        String stockLimit = thresholdField.getText();
+        String thresholdStatus = statusField.getText();
 
         int productcount = 0;
         try {
-            String sql = "INSERT INTO `inventory`" + "(`InventoryID`,`ProductName`, `BuyingPrice`, `SellingPrice`, `Quantity`, `UnitOfMeasure`, `Description`)" + " VALUES " + "(?, ?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `inventory`" + "(`InventoryID`,`ProductName`, `BuyingPrice`, `SellingPrice`, `Quantity`, `UnitOfMeasure`, `Description`, `stockThreshold`, `thresholdStatus` )" + " VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             String sql1 = "INSERT INTO `stransactions`" + "(`InventoryID`,`productName`,`Quantity`, `TypeOfTransaction`,`TransactionDate`, `userid`)" + " VALUES " + "(?, ?, ?, ?, ?, ?)";
 
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "");
@@ -674,6 +704,8 @@ public class InventoryManagement extends javax.swing.JFrame {
             pst.setString(5, quantity);
             pst.setString(6, uom);
             pst.setString(7, description);
+            pst.setString(8, stockLimit);
+            pst.setString(9, thresholdStatus);
 
             pst.executeUpdate();
             JOptionPane.showMessageDialog(null, "Successfully Added Data.", "Alert", JOptionPane.INFORMATION_MESSAGE);
@@ -685,6 +717,8 @@ public class InventoryManagement extends javax.swing.JFrame {
             this.quantityfield.setText(null);
             this.uomfield.setText(null);
             this.productdescriptionfield.setText(null);
+            this.thresholdField.setText(null);
+            this.statusField.setText(null);
 
             Statement stmt = con.createStatement();
             Statement stmt1 = con.createStatement();
@@ -696,7 +730,7 @@ public class InventoryManagement extends javax.swing.JFrame {
             while (datas.next()) {
                 productcount = 0;
                 manageinventorytablemodel.removeRow(productcount);
-                manageinventorytablemodel.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
+                manageinventorytablemodel.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description"), datas.getString("stockThreshold"), datas.getString("thresholdStatus")});
             }
 
             pst1 = con.prepareStatement(sql1);
@@ -810,7 +844,6 @@ public class InventoryManagement extends javax.swing.JFrame {
                     int a = JOptionPane.showConfirmDialog(null, "Are you sure?", "Warning", JOptionPane.YES_NO_OPTION);
                     if (a == JOptionPane.YES_OPTION) {
                         stmt.execute(query);
-                        con.close();
                         JOptionPane.showMessageDialog(null, "Successfully Deleted.", "Alert", JOptionPane.INFORMATION_MESSAGE);
                         inventoryTableModel1.removeRow(manageProductTbl.getSelectedRow());
                     } else {
@@ -824,6 +857,8 @@ public class InventoryManagement extends javax.swing.JFrame {
                     this.quantityfield.setText(null);
                     this.uomfield.setText(null);
                     this.productdescriptionfield.setText(null);
+                    this.thresholdField.setText(null);
+                    this.statusField.setText(null);
 
                     pst1 = con.prepareStatement(query1);
                     pst1.setString(1, inventoryId);
@@ -901,7 +936,7 @@ public class InventoryManagement extends javax.swing.JFrame {
                 try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
                     Statement stmt = con.createStatement();
                     Statement stmt1 = con.createStatement();
-                    String query = "UPDATE `inventory` SET `productName`='" + this.productnamefield.getText() + "',`BuyingPrice`='" + this.productpricefield.getText() + "',`SellingPrice`='" + this.sellingpricefield.getText() + "',`Quantity`='" + this.quantityfield.getText() + "',`UnitOfMeasure`='" + this.uomfield.getText() + "',`description`='" + this.productdescriptionfield.getText() + "' WHERE  inventoryID = '" + proid + "'";
+                    String query = "UPDATE `inventory` SET `productName`='" + this.productnamefield.getText() + "',`BuyingPrice`='" + this.productpricefield.getText() + "',`SellingPrice`='" + this.sellingpricefield.getText() + "',`Quantity`='" + this.quantityfield.getText() + "',`UnitOfMeasure`='" + this.uomfield.getText() + "',`description`='" + this.productdescriptionfield.getText()+ "',`stockThreshold`='" + this.thresholdField.getText() + "',`thresholdStatus`='" + this.statusField.getText() + "' WHERE  inventoryID = '" + proid + "'";
                     String query1 = "INSERT INTO `stransactions`" + "(`InventoryID`,`productName`,`Quantity`, `TypeOfTransaction`,`TransactionDate`, `userid`)" + " VALUES " + "(?, ?, ?, ?, ?, ?)";
 
                     stmt.execute(query);
@@ -912,6 +947,8 @@ public class InventoryManagement extends javax.swing.JFrame {
                     this.quantityfield.setText(null);
                     this.uomfield.setText(null);
                     this.productdescriptionfield.setText(null);
+                    this.thresholdField.setText(null);
+                    this.statusField.setText(null);
 
                     pst1 = con.prepareStatement(query1);
                     pst1.setString(1, inventoryId);
@@ -926,7 +963,7 @@ public class InventoryManagement extends javax.swing.JFrame {
                     while (datas.next()) {
                         count = 0;
                         manageinventtablemodel.removeRow(count);
-                        manageinventtablemodel.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
+                        manageinventtablemodel.addRow(new Object[]{datas.getString("inventoryID"), datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description"), datas.getString("stockThreshold"), datas.getString("thresholdStatus")});
                     }
                     con.close();
                     JOptionPane.showMessageDialog(null, "Successfully Updated.", "Alert", JOptionPane.INFORMATION_MESSAGE);
@@ -1028,6 +1065,22 @@ public class InventoryManagement extends javax.swing.JFrame {
 
     }//GEN-LAST:event_transactRefreshBtnMouseClicked
 
+    private void statusFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_statusFieldActionPerformed
+
+    private void quantityfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantityfieldKeyReleased
+        if ("".equals(this.quantityfield.getText())) {
+            JOptionPane.showMessageDialog(null, "Declare product quantity", "Alert", JOptionPane.ERROR_MESSAGE);
+
+        } else if (Integer.parseInt(quantityfield.getText()) <= 10) {
+            this.statusField.setText("Low Inventory");
+
+        } else {
+            this.statusField.setText("Active");
+        }
+    }//GEN-LAST:event_quantityfieldKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -1075,6 +1128,8 @@ public class InventoryManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1117,6 +1172,8 @@ public class InventoryManagement extends javax.swing.JFrame {
     public javax.swing.JTextField staffIdField;
     public javax.swing.JTextField staffNameField;
     private javax.swing.JTable staffTransactionTable;
+    private javax.swing.JTextField statusField;
+    private javax.swing.JTextField thresholdField;
     private javax.swing.JButton tranHomeBtn1;
     private javax.swing.JButton tranMpBtn1;
     private javax.swing.JButton tranTransactBtn1;
