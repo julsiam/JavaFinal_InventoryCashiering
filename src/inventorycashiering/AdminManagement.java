@@ -36,6 +36,7 @@ public class AdminManagement extends javax.swing.JFrame {
         transactStaffName();
         transactionCashierDate();
         transactCashierName();
+        thresholdLimit();
 //        statusCombo();
 //        displayUserAccounts();
     }
@@ -177,6 +178,29 @@ public class AdminManagement extends javax.swing.JFrame {
 
         }
     }
+    
+     public void thresholdLimit() {
+        DefaultTableModel transactNameModel = (DefaultTableModel) tresholdTbl.getModel();
+        int nameCount;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet thresholdData = stmt.executeQuery("SELECT `ProductName`, `Quantity`,`thresholdStatus` FROM `inventory` WHERE Quantity <=10");
+                while (thresholdData.next()) {
+                    nameCount = 1;
+                    transactNameModel.addRow(new Object[]{thresholdData.getString("ProductName"), thresholdData.getString("quantity"), thresholdData.getString("thresholdstatus")});
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+    }
+    
+    
+    
+    
 
 //    private void statusCombo() {
 //        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
@@ -288,6 +312,17 @@ public class AdminManagement extends javax.swing.JFrame {
         productSoldTbl = new javax.swing.JTable();
         jScrollPane8 = new javax.swing.JScrollPane();
         cashierNameId = new javax.swing.JTable();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel23 = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        tresholdTbl = new javax.swing.JTable();
+        jPanel24 = new javax.swing.JPanel();
+        logOutBtn5 = new javax.swing.JButton();
+        STcashiersTransbtn1 = new javax.swing.JButton();
+        STmanageUserbtn1 = new javax.swing.JButton();
+        STstaffTransactionBtn4 = new javax.swing.JButton();
+        usersHomeBtn3 = new javax.swing.JButton();
 
         jPanel16.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -849,6 +884,89 @@ public class AdminManagement extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("CTransactions", jPanel15);
 
+        jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel23.setBackground(new java.awt.Color(255, 204, 204));
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(102, 0, 0));
+        jLabel16.setText("Product with Lower Quantity");
+
+        javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+        jPanel23.setLayout(jPanel23Layout);
+        jPanel23Layout.setHorizontalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel23Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(87, Short.MAX_VALUE))
+        );
+        jPanel23Layout.setVerticalGroup(
+            jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        );
+
+        jPanel11.add(jPanel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 450, 50));
+
+        tresholdTbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Poduct", "Quantity", "Status"
+            }
+        ));
+        jScrollPane9.setViewportView(tresholdTbl);
+
+        jPanel11.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 930, 280));
+
+        jPanel24.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        logOutBtn5.setText("Log Out");
+        logOutBtn5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logOutBtn5MouseClicked(evt);
+            }
+        });
+        jPanel24.add(logOutBtn5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 170, -1));
+
+        STcashiersTransbtn1.setText("Cashier's Transaction");
+        STcashiersTransbtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                STcashiersTransbtn1MouseClicked(evt);
+            }
+        });
+        jPanel24.add(STcashiersTransbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
+
+        STmanageUserbtn1.setText("Manage Users");
+        STmanageUserbtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                STmanageUserbtn1MouseClicked(evt);
+            }
+        });
+        jPanel24.add(STmanageUserbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 170, -1));
+
+        STstaffTransactionBtn4.setText("Staff's Transaction");
+        STstaffTransactionBtn4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                STstaffTransactionBtn4MouseClicked(evt);
+            }
+        });
+        jPanel24.add(STstaffTransactionBtn4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
+
+        usersHomeBtn3.setText("Home");
+        usersHomeBtn3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usersHomeBtn3MouseClicked(evt);
+            }
+        });
+        jPanel24.add(usersHomeBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 170, -1));
+
+        jPanel11.add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 380, 420, 170));
+
+        jTabbedPane1.addTab("Threshold", jPanel11);
+
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1120, 590));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1149,6 +1267,7 @@ public class AdminManagement extends javax.swing.JFrame {
     private void cashierTransactDateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransactDateMouseClicked
 
         DefaultTableModel transactionDateTableModel = (DefaultTableModel) cashierTransactDate.getModel();
+//        DefaultTableModel productSoldTableModel = (DefaultTableModel) productSoldTbl.getModel();
 
         String transactionDate = (String) transactionDateTableModel.getValueAt(cashierTransactDate.getSelectedRow(), 0);
 
@@ -1171,58 +1290,28 @@ public class AdminManagement extends javax.swing.JFrame {
                     this.totalQuantitySold.setEditable(false);
                     this.totalSalesField.setText("Php " + (Integer.toString(totalAmountPerDay)) + ".00");
                     this.totalSalesField.setEditable(false);
-                    
-                    
-                    
-                    
-//                    if (null != orderData.getString("orderFormTankType")) {
-//                        switch (orderData.getString("orderFormTankType")) {
-//                            case "50 kilos":
-//                                fiftyKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
-//                                if (fiftyKilo < 0) {
-//                                    this.fiftyKilos.setText("No Order");
-//                                } else {
-//                                    this.fiftyKilos.setText(Integer.toString(fiftyKilo) + " pc(s)");
-//                                }
-//                                break;
-//                            case "22 kilos":
-//                                twentyTwoKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
-//                                if (twentyTwoKilo < 0) {
-//                                    this.twentyTwoKilos.setText("No Order");
-//                                } else {
-//                                    this.twentyTwoKilos.setText(Integer.toString(twentyTwoKilo) + " pc(s)");
-//                                }
-//                                break;
-//                            case "11 kilos":
-//                                elevenKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
-//                                if (elevenKilo < 0) {
-//                                    this.elevenKilos.setText("No Order");
-//                                } else {
-//                                    this.elevenKilos.setText(Integer.toString(elevenKilo) + " pc(s)");
-//                                }
-//                                break;
-//                            case "7 kilos":
-//                                sevenKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
-//                                if (sevenKilo < 0) {
-//                                    this.sevenKilos.setText("No Order");
-//                                } else {
-//                                    this.sevenKilos.setText(Integer.toString(sevenKilo) + " pc(s)");
-//                                }
-//                                break;
-//                            case "2.7 kilos":
-//                                twoSevenKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
-//                                if (twoSevenKilo < 0) {
-//                                    this.twoSevenKilos.setText("No Order");
-//                                } else {
-//                                    this.twoSevenKilos.setText(Integer.toString(twoSevenKilo) + " pc(s)");
-//                                }
-//                                break;
-//                            default:
-//                                break;
-//                        }
-//                    }
                 }
 
+//                Statement stmt3 = con.createStatement();
+//                ResultSet soldData = stmt3.executeQuery("SELECT DISTINCT `productName`, `Quantity` FROM `ctransactions`= '" + transactionDate + "'");
+//
+//                while (cashierTransactDate.getSelectedRow() == 0) {
+//                    DefaultTableModel productSoldTableModel = (DefaultTableModel) productSoldTbl.getModel();
+//
+//                }
+                DefaultTableModel productSoldTableModel = (DefaultTableModel) productSoldTbl.getModel();
+                int dateCount;
+                try {
+
+                    Statement stmt = con.createStatement();
+                    ResultSet proData = stmt.executeQuery("SELECT DISTINCT `productName`, `Quantity` FROM `ctransactions`WHERE Date = '" + transactionDate + "'");
+                    while (proData.next()) {
+                        productSoldTableModel.addRow(new Object[]{proData.getString("productName"), proData.getString("Quantity")});
+                    }
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
             }
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
@@ -1232,6 +1321,26 @@ public class AdminManagement extends javax.swing.JFrame {
     private void totalQuantitySoldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalQuantitySoldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_totalQuantitySoldActionPerformed
+
+    private void logOutBtn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn5MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logOutBtn5MouseClicked
+
+    private void STcashiersTransbtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_STcashiersTransbtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_STcashiersTransbtn1MouseClicked
+
+    private void STmanageUserbtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_STmanageUserbtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_STmanageUserbtn1MouseClicked
+
+    private void STstaffTransactionBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_STstaffTransactionBtn4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_STstaffTransactionBtn4MouseClicked
+
+    private void usersHomeBtn3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersHomeBtn3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usersHomeBtn3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1278,8 +1387,11 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JButton MUusersHomeBtn3;
     private javax.swing.JButton ManageUsersBtn;
     private javax.swing.JButton STcashiersTransbtn;
+    private javax.swing.JButton STcashiersTransbtn1;
     private javax.swing.JButton STmanageUserbtn;
+    private javax.swing.JButton STmanageUserbtn1;
     private javax.swing.JButton STstaffTransactionBtn3;
+    private javax.swing.JButton STstaffTransactionBtn4;
     private javax.swing.JButton addBtn;
     private javax.swing.JTable cashierNameId;
     private javax.swing.JTable cashierTransTables;
@@ -1296,6 +1408,7 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1306,6 +1419,7 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
@@ -1318,6 +1432,8 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -1333,12 +1449,14 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField lNameField;
     private javax.swing.JButton logOutBtn;
     private javax.swing.JButton logOutBtn2;
     private javax.swing.JButton logOutBtn3;
     private javax.swing.JButton logOutBtn4;
+    private javax.swing.JButton logOutBtn5;
     private javax.swing.JTable manageUserTable;
     private javax.swing.JButton murResetBtn;
     private javax.swing.JTextField passwordField;
@@ -1351,8 +1469,10 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> statusCombobox;
     private javax.swing.JTextField totalQuantitySold;
     private javax.swing.JTextField totalSalesField;
+    private javax.swing.JTable tresholdTbl;
     private javax.swing.JButton updateBtn;
     private javax.swing.JButton usersHomeBtn1;
     private javax.swing.JButton usersHomeBtn2;
+    private javax.swing.JButton usersHomeBtn3;
     // End of variables declaration//GEN-END:variables
 }

@@ -983,6 +983,7 @@ public class CashierManagement extends javax.swing.JFrame {
             this.totalAmountField.setText(null);
             this.productquantityfield.setText(null);
             this.priceField.setText(null);
+            this.availQuantiField.setText(null);
         }
     }//GEN-LAST:event_resetBtnMouseClicked
 
