@@ -31,7 +31,10 @@ public class CashierManagement extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
 
         displayproducts();
-        comboSql();
+        displaytransaction();
+        dispProNamePrice();
+//        productDetailsCombobox();
+//        comboSql();
     }
 
     public void displayproducts() {
@@ -53,20 +56,71 @@ public class CashierManagement extends javax.swing.JFrame {
         }
     }
 
-    private void comboSql() {
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+    public void dispProNamePrice() {
+        DefaultTableModel priceproducttable = (DefaultTableModel) productPriceTbl.getModel();
+        int count = 0;
+
+        try {
             Class.forName("com.mysql.jdbc.Driver");
-            String sql = "SELECT * FROM `inventory` ";
-            pst = con.prepareStatement(sql);
-            rs = pst.executeQuery();
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
 
-            while (rs.next()) {
-                String productname = rs.getString("ProductName");
-                productscombobox.addItem(productname);
+                ResultSet datas = stmt.executeQuery("SELECT * FROM `inventory`");
+                while (datas.next()) {
+                    count = 1;
+                    priceproducttable.addRow(new Object[]{datas.getString("ProductName"), datas.getString("SellingPrice"), datas.getString("quantity")});
+                }
             }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-        } catch (Exception e) {
+//    private void comboSql() {
+//        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+//            Class.forName("com.mysql.jdbc.Driver");
+//
+//            String proName = (String) productscombobox.getSelectedItem();
+//            String sql = "SELECT `ProductName`FROM `inventory`";
+////            String sql = "SELECT * FROM `inventory` ";
+//            pst = con.prepareStatement(sql);
+//            pst.setString(1, proName);
+//            rs = pst.executeQuery();
+//
+//            while (rs.next()) {
+//                String price = rs.getString("SellingPrice");
+//                this.priceField.setText(price);
+//
+//            }
+////            float pricee = Float.parseFloat(rs.getString(5));
+////            priceField.setText(Float.toString(pricee).trim());
+////            if (rs.next()) {
+////                String price = rs.getString("SellingPrice");
+////                this.priceField.setText(price);
+////            }
+//
+//        } catch (Exception e) {
+//
+//        }
+//
+//    }
+    public void displaytransaction() {
+        DefaultTableModel cashierTransactionModel = (DefaultTableModel) sellDetailsTables.getModel();
+        int count = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `ctransactions`");
 
+//                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
+                while (transactdata.next()) {
+                    count = 0;
+                    cashierTransactionModel.addRow(new Object[]{transactdata.getString("CTransactionID"), transactdata.getString("productName"), transactdata.getString("quantity"), transactdata.getString("totalAmount"), transactdata.getString("UserID"), transactdata.getString("Date")});
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -97,9 +151,14 @@ public class CashierManagement extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         totalAmountField = new javax.swing.JTextField();
-        productscombobox = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         productquantityfield = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        priceField = new javax.swing.JTextField();
+        proNameField = new javax.swing.JTextField();
+        resetBtn = new javax.swing.JButton();
+        availQuantiField = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         sellDetailsTables = new javax.swing.JTable();
         jPanel12 = new javax.swing.JPanel();
@@ -115,6 +174,11 @@ public class CashierManagement extends javax.swing.JFrame {
         cashierTransactionBtn1 = new javax.swing.JButton();
         ManageUsersBtn1 = new javax.swing.JButton();
         staffTransactionBtn1 = new javax.swing.JButton();
+        refreshSellDetailsBtn = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        productPriceTbl = new javax.swing.JTable();
+        jPanel16 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         jPanel14 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
@@ -132,8 +196,10 @@ public class CashierManagement extends javax.swing.JFrame {
         usersHomeBtn1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        cashierIdField = new javax.swing.JTextField();
+        jPanel21 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
+        cashierIdField = new javax.swing.JTextField();
+        jPanel17 = new javax.swing.JPanel();
         cashierNameField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -220,7 +286,7 @@ public class CashierManagement extends javax.swing.JFrame {
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("", jPanel4);
+        jTabbedPane1.addTab("Home", jPanel4);
 
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -247,7 +313,7 @@ public class CashierManagement extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel6.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 380, 50));
+        jPanel6.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 380, 50));
 
         jPanel11.setBackground(new java.awt.Color(0, 204, 153));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -258,36 +324,55 @@ public class CashierManagement extends javax.swing.JFrame {
                 cashierSellBtnMouseClicked(evt);
             }
         });
-        jPanel11.add(cashierSellBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 90, 110, -1));
+        jPanel11.add(cashierSellBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 90, 110, 30));
 
         jLabel7.setText("Total:");
-        jPanel11.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 30, -1, -1));
+        jPanel11.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, -1, -1));
 
         jLabel8.setText("Quantity:");
-        jPanel11.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 30, -1, -1));
-        jPanel11.add(totalAmountField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1040, 20, 260, 30));
-
-        productscombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose a Product..." }));
-        jPanel11.add(productscombobox, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 20, 260, 30));
+        jPanel11.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+        jPanel11.add(totalAmountField, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 100, 230, 30));
 
         jLabel9.setText("Product Name:");
-        jPanel11.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
+        jPanel11.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, -1));
 
+        productquantityfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                productquantityfieldActionPerformed(evt);
+            }
+        });
         productquantityfield.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 productquantityfieldKeyReleased(evt);
             }
         });
-        jPanel11.add(productquantityfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 260, 30));
+        jPanel11.add(productquantityfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 230, 30));
 
-        jPanel6.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 1360, 140));
+        jLabel10.setText("Price:");
+        jPanel11.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, -1, -1));
+        jPanel11.add(priceField, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, 230, 30));
+        jPanel11.add(proNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 230, 30));
+
+        resetBtn.setText("Reset");
+        resetBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetBtnMouseClicked(evt);
+            }
+        });
+        jPanel11.add(resetBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 150, 110, 30));
+        jPanel11.add(availQuantiField, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 40, 80, 30));
+
+        jLabel6.setText("Avail.Quanti.:");
+        jPanel11.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 50, 90, -1));
+
+        jPanel6.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 70, 890, 190));
 
         sellDetailsTables.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "TransactionID", "Date", "Product Name", "Quantity", "Total Amount"
+                "TransactionID", "Product Name", "Quantity", "Total Amount", "UserID", "Date"
             }
         ));
         sellDetailsTables.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -297,7 +382,7 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(sellDetailsTables);
 
-        jPanel6.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 830, 420));
+        jPanel6.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, 890, 240));
 
         jPanel12.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -323,7 +408,7 @@ public class CashierManagement extends javax.swing.JFrame {
         jPanel12Layout.setHorizontalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                .addGap(0, 135, Short.MAX_VALUE)
+                .addGap(0, 55, Short.MAX_VALUE)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                         .addComponent(title1, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -365,7 +450,7 @@ public class CashierManagement extends javax.swing.JFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        jPanel6.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 240, 520, 310));
+        jPanel6.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 440, 310));
 
         jPanel13.setBackground(new java.awt.Color(255, 153, 153));
         jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -404,7 +489,62 @@ public class CashierManagement extends javax.swing.JFrame {
 
         jPanel6.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 570, 430, 160));
 
-        jTabbedPane1.addTab("", jPanel6);
+        refreshSellDetailsBtn.setText("Refresh");
+        refreshSellDetailsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                refreshSellDetailsBtnMouseClicked(evt);
+            }
+        });
+        refreshSellDetailsBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshSellDetailsBtnActionPerformed(evt);
+            }
+        });
+        jPanel6.add(refreshSellDetailsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 560, 80, 30));
+
+        productPriceTbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Product", "Price", "Available Quantity"
+            }
+        ));
+        productPriceTbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                productPriceTblMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(productPriceTbl);
+
+        jPanel6.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 440, 280));
+
+        jPanel16.setBackground(new java.awt.Color(0, 102, 102));
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(153, 255, 204));
+        jLabel5.setText("Choose a product from the left");
+
+        javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
+        jPanel16.setLayout(jPanel16Layout);
+        jPanel16Layout.setHorizontalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addContainerGap(48, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
+        );
+        jPanel16Layout.setVerticalGroup(
+            jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel16Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addContainerGap())
+        );
+
+        jPanel6.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 20, 300, 40));
+
+        jTabbedPane1.addTab("Sell", jPanel6);
 
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -461,10 +601,10 @@ public class CashierManagement extends javax.swing.JFrame {
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("", jPanel14);
+        jTabbedPane1.addTab("Transaction", jPanel14);
 
         jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -515,7 +655,7 @@ public class CashierManagement extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("", jPanel15);
 
-        jPanel2.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1400, 760));
+        jPanel2.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1400, 720));
 
         jPanel5.setBackground(new java.awt.Color(102, 0, 0));
 
@@ -530,7 +670,7 @@ public class CashierManagement extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -540,12 +680,59 @@ public class CashierManagement extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, -1, -1));
-        jPanel2.add(cashierIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 40, 30));
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 480, -1));
+
+        jPanel21.setBackground(new java.awt.Color(255, 204, 204));
 
         jLabel4.setText("Your ID:");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
-        jPanel2.add(cashierNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(1170, 20, 190, 30));
+
+        cashierIdField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
+
+        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
+        jPanel21.setLayout(jPanel21Layout);
+        jPanel21Layout.setHorizontalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(cashierIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel21Layout.setVerticalGroup(
+            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel21Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cashierIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(5, 5, 5))
+        );
+
+        jPanel2.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 10, 140, 50));
+
+        jPanel17.setBackground(new java.awt.Color(255, 204, 204));
+
+        cashierNameField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
+
+        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+        jPanel17.setLayout(jPanel17Layout);
+        jPanel17Layout.setHorizontalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cashierNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel17Layout.setVerticalGroup(
+            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cashierNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        jPanel2.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 10, 270, 50));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 770));
 
@@ -553,9 +740,7 @@ public class CashierManagement extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 20, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1401, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -625,77 +810,93 @@ public class CashierManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_usersHomeBtn1MouseClicked
 
     private void cashierSellBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierSellBtnMouseClicked
-        DefaultTableModel cashierTableModel = (DefaultTableModel) sellDetailsTables.getModel();
 
-        LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
-
-        String newOrderDate = myDateObj.format(orderDate);
-
-        String productname = this.productscombobox.getSelectedItem().toString();
-        String amount = this.totalAmountField.getText();
-        String quantity = this.productquantityfield.getText();
-        String cashierAccountId = cashierIdField.getText();
-
-        if ("Choose a Product...".equals(this.productscombobox.getSelectedItem()) || this.productquantityfield.getText().isEmpty()) {
+//        DefaultTableModel cahiersTableModel = (DefaultTableModel) sellDetailsTables.getModel();
+        if ((this.proNameField.getText().isEmpty()) || this.productquantityfield.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Choose a product...", "Alert", JOptionPane.ERROR_MESSAGE);
-            JOptionPane.showMessageDialog(null, "Invalid Quantity!", "Alert", JOptionPane.ERROR_MESSAGE);
-            this.totalAmountField.setText("");
-
+            
+        } else if (Integer.parseInt(availQuantiField.getText()) <= 10) {
+            JOptionPane.showMessageDialog(null, "Low Inventory. Not enough quantity ", "Alert", JOptionPane.ERROR_MESSAGE);
+            
         } else {
+            LocalDateTime myDateObj = LocalDateTime.now();
+            DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+
+            String newOrderDate = myDateObj.format(orderDate);
+
+            String productname = this.proNameField.getText();
+            String amount = this.totalAmountField.getText();
+            String quantity = this.productquantityfield.getText();
+            String cashierAccountId = cashierIdField.getText();
+
             this.title.setText("Jul's Sari-sari Store");
             this.datesoldlabel.setText("Date: " + myDateObj.format(orderDate));
-            this.productnamelabel.setText("Product Name: " + (String) this.productscombobox.getSelectedItem());
+            this.productnamelabel.setText("Product Name: " + (String) this.proNameField.getText());
             this.productquantitylabel.setText("Quantity: " + Integer.parseInt(this.productquantityfield.getText()) + " pack/s");
             this.producttotallabel.setText("Total: Php " + Integer.parseInt(this.totalAmountField.getText()) + ".00");
-
+//from here
             try {
-
-                try {
-                    Class.forName("com.mysql.jdbc.Driver");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(CashierManagement.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
+                DefaultTableModel cahiersTableModel = (DefaultTableModel) sellDetailsTables.getModel();
+                Class.forName("com.mysql.jdbc.Driver");
+                String productName = this.proNameField.getText();
                 try (Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
                     Statement stmt = con.createStatement();
-                    String query1 = "INSERT INTO `CTransactions`(`date`, `productName`, `Quantity`, `totalAmount`, `UserID`) VALUES"
-                            + "('" + newOrderDate + "','" + productname + "','" + quantity + "','" + amount + "','" + cashierAccountId + "')";
+                    String query1 = "INSERT INTO `CTransactions`(`productName`, `Quantity`, `totalAmount`, `UserID`, Date) VALUES" + "('" + productname + "','" + quantity + "','" + amount + "','" + cashierAccountId + "','" + newOrderDate + "')";
+                    stmt.executeUpdate(query1);
+
                     int count;
-                    ResultSet data = stmt.executeQuery("SELECT * FROM `inventory`");
+                    ResultSet data = stmt.executeQuery("SELECT * FROM `inventory` WHERE ProductName = '" + productName + "'");
                     if (data.next()) {
-                        int qnty = Integer.parseInt(data.getString("quantity")) - Integer.parseInt(this.productquantityfield.getText());
-                        System.out.println(data.getString("quantity"));
+                        int qnty = Integer.parseInt(data.getString("Quantity")) - Integer.parseInt(this.productquantityfield.getText());
+                        System.out.println(productName);
+                        System.out.println(data.getString("Quantity"));
                         System.out.println(qnty);
-
                         String newQnty = Integer.toString(qnty);
-                        String query2 = "UPDATE `inventory` SET `quantity`='" + newQnty + "'";
+                        String query2 = "UPDATE `inventory` SET `Quantity`='" + newQnty + "' WHERE ProductName= '" + productName + "'";
                         stmt.executeUpdate(query2);
-
                     }
 
-                    ResultSet newData = stmt.executeQuery("SELECT * FROM `ctransactions`");
+                    ResultSet newData = stmt.executeQuery("SELECT * FROM `CTransactions`");
                     while (newData.next()) {
                         count = 0;
-                        cashierTableModel.removeRow(count);
-                        cashierTableModel.addRow(new Object[]{newData.getString("CTransactionId"), newData.getString("Date"), newData.getString("productName"), newData.getString("Quantity"), newData.getString("totalAmount"), newData.getString("userID")});
+                        cahiersTableModel.removeRow(count);
+                        cahiersTableModel.addRow(new Object[]{newData.getString("CTransactionID"), newData.getString("productName"), newData.getString("Quantity"), newData.getString("totalAmount"), newData.getString("userID"), newData.getString("date")});
                     }
                     con.close();
                 }
-            } catch (SQLException e) {
+            } catch (ClassNotFoundException | SQLException e) {
                 System.out.println(e);
             }
-            this.productscombobox.setSelectedIndex(0);
-            this.productquantityfield.setText(null);
+            this.proNameField.setText(null);
             this.totalAmountField.setText(null);
+            this.productquantityfield.setText(null);
+            this.priceField.setText(null);
+            this.availQuantiField.setText(null);
 
         }
-
 
     }//GEN-LAST:event_cashierSellBtnMouseClicked
 
     private void productquantityfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productquantityfieldKeyReleased
-        // TODO add your handling code here:
+        if (this.productquantityfield.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Input Quantity", "Alert", JOptionPane.ERROR_MESSAGE);
+            this.totalAmountField.setText(null);
+
+        } else {
+
+            try {
+                int inputQuantity = Integer.parseInt(this.productquantityfield.getText());
+                int proPrice = Integer.parseInt(this.priceField.getText());
+
+                int total = inputQuantity * proPrice;
+
+                this.totalAmountField.setText(Integer.toString(total));
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
     }//GEN-LAST:event_productquantityfieldKeyReleased
 
     private void tableproductdisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableproductdisplayMouseClicked
@@ -719,33 +920,71 @@ public class CashierManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_staffTransactionBtn1MouseClicked
 
     private void sellDetailsTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellDetailsTablesMouseClicked
-//        DefaultTableModel sellingTableModel = (DefaultTableModel) sellDetailsTables.getModel();
-//        LocalDateTime myDateObj = LocalDateTime.now();
-//        DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
-//
-//        String newOrderDate = myDateObj.format(orderDate);
-//
-//        String trnsactionId = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 0);
-//        String date = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 1);
-//        String buyingPrice = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 2);
-//        String sellingPrice = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 3);
-//        String quantity = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 4);
-//        String unitofmeasure = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 5);
-//        String description = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 6);
-//        String threshold = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 7);
-//        String inventoryStatus = (String) sellingTableModel.getValueAt(sellDetailsTables.getSelectedRow(), 8);
-//
-//        this.productidfield.setText(proid);
-//        this.productidfield.setEditable(false);
-//        this.newOrderDate.setText(newOrderDate);
-//        this.productpricefield.setText(buyingPrice);
-//        this.sellingpricefield.setText(sellingPrice);
-//        this.quantityfield.setText(quantity);
-//        this.uomfield.setText(unitofmeasure);
-//        this.productdescriptionfield.setText(description);
-//        this.statusField.setText(inventoryStatus);
-//        this.thresholdField.setText(threshold);
+
     }//GEN-LAST:event_sellDetailsTablesMouseClicked
+
+    private void refreshSellDetailsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshSellDetailsBtnMouseClicked
+        DefaultTableModel cashierTransactionModel = (DefaultTableModel) sellDetailsTables.getModel();
+
+        int count = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet sellData = stmt.executeQuery("SELECT * FROM `ctransactions`");
+
+//                ResultSet newData = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
+                while (cashierTransactionModel.getRowCount() > 0) {
+                    cashierTransactionModel.removeRow(0);
+                }
+
+                while (sellData.next()) {
+                    count = 0;
+                    cashierTransactionModel.addRow(new Object[]{sellData.getString("CTransactionId"), sellData.getString("productName"), sellData.getString("Quantity"), sellData.getString("totalAmount"), sellData.getString("userID"), sellData.getString("date")});
+
+                }
+            }
+
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+    }//GEN-LAST:event_refreshSellDetailsBtnMouseClicked
+
+    private void refreshSellDetailsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshSellDetailsBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_refreshSellDetailsBtnActionPerformed
+
+    private void productPriceTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productPriceTblMouseClicked
+        DefaultTableModel priceproducttable = (DefaultTableModel) productPriceTbl.getModel();
+
+        String proName = (String) priceproducttable.getValueAt(productPriceTbl.getSelectedRow(), 0);
+        String price = (String) priceproducttable.getValueAt(productPriceTbl.getSelectedRow(), 1);
+        String quanti = (String) priceproducttable.getValueAt(productPriceTbl.getSelectedRow(), 2);
+
+        this.proNameField.setText(proName);
+        this.proNameField.setEditable(false);
+        this.priceField.setText(price);
+        this.priceField.setEditable(false);
+        this.availQuantiField.setText(quanti);
+        this.availQuantiField.setEditable(false);
+
+
+    }//GEN-LAST:event_productPriceTblMouseClicked
+
+    private void productquantityfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productquantityfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_productquantityfieldActionPerformed
+
+    private void resetBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetBtnMouseClicked
+        if (evt.getSource() == resetBtn) {
+            this.proNameField.setText(null);
+            this.totalAmountField.setText(null);
+            this.productquantityfield.setText(null);
+            this.priceField.setText(null);
+        }
+    }//GEN-LAST:event_resetBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -761,16 +1000,24 @@ public class CashierManagement extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CashierManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CashierManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CashierManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CashierManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CashierManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -791,6 +1038,7 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JButton STcashiersTransbtn;
     private javax.swing.JButton STmanageUserbtn;
     private javax.swing.JButton STstaffTransactionBtn3;
+    private javax.swing.JTextField availQuantiField;
     public javax.swing.JTextField cashierIdField;
     public javax.swing.JTextField cashierNameField;
     private javax.swing.JButton cashierSellBtn;
@@ -798,9 +1046,12 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JButton cashierTransactionBtn1;
     private javax.swing.JLabel datesoldlabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -811,10 +1062,13 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
+    private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -824,16 +1078,21 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton logOutBtn;
     private javax.swing.JButton logOutBtn1;
     private javax.swing.JButton logOutBtn3;
     private javax.swing.JButton logOutBtn4;
+    private javax.swing.JTextField priceField;
+    private javax.swing.JTextField proNameField;
+    private javax.swing.JTable productPriceTbl;
     private javax.swing.JLabel productnamelabel;
     private javax.swing.JTextField productquantityfield;
     private javax.swing.JLabel productquantitylabel;
-    private javax.swing.JComboBox<String> productscombobox;
     private javax.swing.JLabel producttotallabel;
+    private javax.swing.JButton refreshSellDetailsBtn;
+    private javax.swing.JButton resetBtn;
     private javax.swing.JTable sellDetailsTables;
     private javax.swing.JButton staffTransactionBtn;
     private javax.swing.JButton staffTransactionBtn1;

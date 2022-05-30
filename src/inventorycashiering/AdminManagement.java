@@ -31,50 +31,13 @@ public class AdminManagement extends javax.swing.JFrame {
 
         dispStaffTransaction();
         manageUserAccounts();
+        dispCashierTransaction();
+        staffTransactionDate();
+        transactStaffName();
+        transactionCashierDate();
+        transactCashierName();
 //        statusCombo();
 //        displayUserAccounts();
-    }
-
-//    public void displayUserAccounts() {
-//        DefaultTableModel admintable = (DefaultTableModel) systemUsersTbl.getModel();
-//        int count = 0;
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
-//                Statement stmt = con.createStatement();
-//
-//                ResultSet datas = stmt.executeQuery("SELECT * FROM `users` ORDER BY Role");
-//                while (datas.next()) {
-//                    count = 1;
-//                    admintable.addRow(new Object[]{datas.getString("UserID"), datas.getString("FirstName"), datas.getString("LastName"), datas.getString("Email"), datas.getString("Password"), datas.getString("Role"), datas.getString("Status")});
-//
-//                }
-//            }
-//        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
-    
-    public void dispStaffTransaction() {
-        DefaultTableModel staffTransactionModel = (DefaultTableModel) staffTransactionTable.getModel();
-        int count = 0;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
-                Statement stmt = con.createStatement();
-                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `stransactions`");
-
-//                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
-                while (transactdata.next()) {
-                    count = 0;
-                    staffTransactionModel.addRow(new Object[]{transactdata.getString("STransactionId"), transactdata.getString("transactionDate"), transactdata.getString("userId"), transactdata.getString("InventoryId"), transactdata.getString("productName"), transactdata.getString("typeoftransaction")});
-
-                }
-            }
-        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
     }
 
     public void manageUserAccounts() {
@@ -97,6 +60,124 @@ public class AdminManagement extends javax.swing.JFrame {
         }
     }
 
+    public void dispStaffTransaction() {
+        DefaultTableModel staffTransactionModel = (DefaultTableModel) staffTransactionTable.getModel();
+        int count = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `stransactions`");
+
+//                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
+                while (transactdata.next()) {
+                    count = 0;
+                    staffTransactionModel.addRow(new Object[]{transactdata.getString("STransactionId"), transactdata.getString("transactionDate"), transactdata.getString("userId"), transactdata.getString("InventoryId"), transactdata.getString("productName"), transactdata.getString("typeoftransaction")});
+
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void dispCashierTransaction() {
+        DefaultTableModel cashierTransactionModel = (DefaultTableModel) cashierTransTables.getModel();
+        int count = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `ctransactions`");
+
+//                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
+                while (transactdata.next()) {
+                    count = 0;
+                    cashierTransactionModel.addRow(new Object[]{transactdata.getString("CTransactionId"), transactdata.getString("productName"), transactdata.getString("quantity"), transactdata.getString("totalAmount"), transactdata.getString("userID"), transactdata.getString("date")});
+
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void staffTransactionDate() {
+        DefaultTableModel transactDateModel = (DefaultTableModel) staffTransactDate.getModel();
+        int dateCount;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet dateData = stmt.executeQuery("SELECT DISTINCT `TransactionDate` FROM `stransactions`");
+                while (dateData.next()) {
+                    dateCount = 1;
+                    transactDateModel.addRow(new Object[]{dateData.getString("TransactionDate")});
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void transactStaffName() {
+        DefaultTableModel transactNameModel = (DefaultTableModel) staffNameId.getModel();
+        int nameCount;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet staffData = stmt.executeQuery("SELECT DISTINCT users.UserID, users.FirstName FROM users JOIN stransactions ON users.UserID=stransactions.UserID");
+                while (staffData.next()) {
+                    nameCount = 1;
+                    transactNameModel.addRow(new Object[]{staffData.getString("UserID"), staffData.getString("firstName")});
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+    }
+
+    public void transactionCashierDate() {
+        DefaultTableModel transactDateModel = (DefaultTableModel) cashierTransactDate.getModel();
+        int dateCount;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet dateData = stmt.executeQuery("SELECT DISTINCT `Date` FROM `ctransactions`");
+                while (dateData.next()) {
+                    dateCount = 1;
+                    transactDateModel.addRow(new Object[]{dateData.getString("Date")});
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void transactCashierName() {
+        DefaultTableModel transactNameModel = (DefaultTableModel) cashierNameId.getModel();
+        int nameCount;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet staffData = stmt.executeQuery("SELECT DISTINCT users.UserID, users.FirstName FROM users JOIN ctransactions ON users.UserID=ctransactions.UserID");
+                while (staffData.next()) {
+                    nameCount = 1;
+                    transactNameModel.addRow(new Object[]{staffData.getString("UserID"), staffData.getString("firstName")});
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+
+        }
+    }
+
 //    private void statusCombo() {
 //        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
 //            Class.forName("com.mysql.jdbc.Driver");
@@ -113,7 +194,6 @@ public class AdminManagement extends javax.swing.JFrame {
 //
 //        }
 //    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -181,6 +261,10 @@ public class AdminManagement extends javax.swing.JFrame {
         staffTransactionTable = new javax.swing.JTable();
         jPanel21 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        staffNameId = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        staffTransactDate = new javax.swing.JTable();
         jPanel15 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         logOutBtn3 = new javax.swing.JButton();
@@ -188,6 +272,22 @@ public class AdminManagement extends javax.swing.JFrame {
         STmanageUserbtn = new javax.swing.JButton();
         STstaffTransactionBtn3 = new javax.swing.JButton();
         usersHomeBtn1 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        cashierTransTables = new javax.swing.JTable();
+        jPanel22 = new javax.swing.JPanel();
+        jLabel15 = new javax.swing.JLabel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        cashierTransactDate = new javax.swing.JTable();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        totalSalesField = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        totalQuantitySold = new javax.swing.JTextField();
+        jPanel10 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        productSoldTbl = new javax.swing.JTable();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        cashierNameId = new javax.swing.JTable();
 
         jPanel16.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -299,7 +399,7 @@ public class AdminManagement extends javax.swing.JFrame {
             .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("", jPanel4);
+        jTabbedPane1.addTab("Home", jPanel4);
 
         jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -465,7 +565,7 @@ public class AdminManagement extends javax.swing.JFrame {
             .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("", jPanel6);
+        jTabbedPane1.addTab("MUsers", jPanel6);
 
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -529,7 +629,7 @@ public class AdminManagement extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(staffTransactionTable);
 
-        jPanel18.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 1100, 280));
+        jPanel18.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 760, 290));
 
         jPanel21.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -553,6 +653,30 @@ public class AdminManagement extends javax.swing.JFrame {
 
         jPanel18.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 310, 50));
 
+        staffNameId.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "StaffID", "Staff Name"
+            }
+        ));
+        jScrollPane4.setViewportView(staffNameId);
+
+        jPanel18.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 410, 240, 130));
+
+        staffTransactDate.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Transaction Date"
+            }
+        ));
+        jScrollPane5.setViewportView(staffTransactDate);
+
+        jPanel18.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 240, 130));
+
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
@@ -564,7 +688,7 @@ public class AdminManagement extends javax.swing.JFrame {
             .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("", jPanel14);
+        jTabbedPane1.addTab("STransactions", jPanel14);
 
         jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -613,7 +737,117 @@ public class AdminManagement extends javax.swing.JFrame {
 
         jPanel15.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 380, 420, 170));
 
-        jTabbedPane1.addTab("", jPanel15);
+        cashierTransTables.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "TransactionID", "Product Name", "Quantity", "Total Amount", "UserID", "Date"
+            }
+        ));
+        cashierTransTables.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cashierTransTablesMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(cashierTransTables);
+
+        jPanel15.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 630, 270));
+
+        jPanel22.setBackground(new java.awt.Color(255, 204, 204));
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(102, 0, 0));
+        jLabel15.setText("Cashier's Transaction");
+
+        javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
+        jPanel22.setLayout(jPanel22Layout);
+        jPanel22Layout.setHorizontalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel22Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(81, Short.MAX_VALUE))
+        );
+        jPanel22Layout.setVerticalGroup(
+            jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+        );
+
+        jPanel15.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 310, 50));
+
+        cashierTransactDate.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Transaction Date"
+            }
+        ));
+        cashierTransactDate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cashierTransactDateMouseClicked(evt);
+            }
+        });
+        jScrollPane7.setViewportView(cashierTransactDate);
+
+        jPanel15.add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 420, 240, 130));
+
+        jPanel5.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setText("Total Sales/Day:");
+        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 146, 120, -1));
+
+        totalSalesField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalSalesFieldActionPerformed(evt);
+            }
+        });
+        jPanel5.add(totalSalesField, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 169, 115, 36));
+
+        jLabel12.setText("Total Quantity Sold:");
+        jPanel5.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 36, 120, -1));
+
+        totalQuantitySold.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalQuantitySoldActionPerformed(evt);
+            }
+        });
+        jPanel5.add(totalQuantitySold, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 59, 115, 36));
+
+        jPanel15.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 210, 270));
+
+        jPanel10.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        productSoldTbl.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Product", "Sold"
+            }
+        ));
+        jScrollPane6.setViewportView(productSoldTbl);
+
+        jPanel10.add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 250));
+
+        jPanel15.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 100, 240, 270));
+
+        cashierNameId.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "StaffID", "Staff Name"
+            }
+        ));
+        jScrollPane8.setViewportView(cashierNameId);
+
+        jPanel15.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 420, 240, 130));
+
+        jTabbedPane1.addTab("CTransactions", jPanel15);
 
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1120, 590));
 
@@ -904,6 +1138,101 @@ public class AdminManagement extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_staffTransactionTableMouseClicked
 
+    private void cashierTransTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransTablesMouseClicked
+
+    }//GEN-LAST:event_cashierTransTablesMouseClicked
+
+    private void totalSalesFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalSalesFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalSalesFieldActionPerformed
+
+    private void cashierTransactDateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransactDateMouseClicked
+
+        DefaultTableModel transactionDateTableModel = (DefaultTableModel) cashierTransactDate.getModel();
+
+        String transactionDate = (String) transactionDateTableModel.getValueAt(cashierTransactDate.getSelectedRow(), 0);
+
+        int orderCount;
+        int totalQuantitySold = 0;
+        int totalAmountPerDay = 0;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt2 = con.createStatement();
+                ResultSet orderData = stmt2.executeQuery("SELECT * FROM `ctransactions` WHERE `date` = '" + transactionDate + "'");
+                while (orderData.next()) {
+                    orderCount = 1;
+
+                    totalQuantitySold += Integer.parseInt(orderData.getString("Quantity"));
+                    totalAmountPerDay += Integer.parseInt(orderData.getString("totalAmount"));
+
+                    this.totalQuantitySold.setText(Integer.toString(totalQuantitySold));
+                    this.totalQuantitySold.setEditable(false);
+                    this.totalSalesField.setText("Php " + (Integer.toString(totalAmountPerDay)) + ".00");
+                    this.totalSalesField.setEditable(false);
+                    
+                    
+                    
+                    
+//                    if (null != orderData.getString("orderFormTankType")) {
+//                        switch (orderData.getString("orderFormTankType")) {
+//                            case "50 kilos":
+//                                fiftyKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
+//                                if (fiftyKilo < 0) {
+//                                    this.fiftyKilos.setText("No Order");
+//                                } else {
+//                                    this.fiftyKilos.setText(Integer.toString(fiftyKilo) + " pc(s)");
+//                                }
+//                                break;
+//                            case "22 kilos":
+//                                twentyTwoKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
+//                                if (twentyTwoKilo < 0) {
+//                                    this.twentyTwoKilos.setText("No Order");
+//                                } else {
+//                                    this.twentyTwoKilos.setText(Integer.toString(twentyTwoKilo) + " pc(s)");
+//                                }
+//                                break;
+//                            case "11 kilos":
+//                                elevenKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
+//                                if (elevenKilo < 0) {
+//                                    this.elevenKilos.setText("No Order");
+//                                } else {
+//                                    this.elevenKilos.setText(Integer.toString(elevenKilo) + " pc(s)");
+//                                }
+//                                break;
+//                            case "7 kilos":
+//                                sevenKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
+//                                if (sevenKilo < 0) {
+//                                    this.sevenKilos.setText("No Order");
+//                                } else {
+//                                    this.sevenKilos.setText(Integer.toString(sevenKilo) + " pc(s)");
+//                                }
+//                                break;
+//                            case "2.7 kilos":
+//                                twoSevenKilo += Integer.parseInt(orderData.getString("orderFormQuantity"));
+//                                if (twoSevenKilo < 0) {
+//                                    this.twoSevenKilos.setText("No Order");
+//                                } else {
+//                                    this.twoSevenKilos.setText(Integer.toString(twoSevenKilo) + " pc(s)");
+//                                }
+//                                break;
+//                            default:
+//                                break;
+//                        }
+//                    }
+                }
+
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_cashierTransactDateMouseClicked
+
+    private void totalQuantitySoldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalQuantitySoldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalQuantitySoldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -952,6 +1281,9 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JButton STmanageUserbtn;
     private javax.swing.JButton STstaffTransactionBtn3;
     private javax.swing.JButton addBtn;
+    private javax.swing.JTable cashierNameId;
+    private javax.swing.JTable cashierTransTables;
+    private javax.swing.JTable cashierTransactDate;
     private javax.swing.JButton cashierTransactionBtn;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField emailField;
@@ -960,8 +1292,11 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -970,6 +1305,7 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
@@ -981,14 +1317,22 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
+    private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField lNameField;
     private javax.swing.JButton logOutBtn;
@@ -998,10 +1342,15 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JTable manageUserTable;
     private javax.swing.JButton murResetBtn;
     private javax.swing.JTextField passwordField;
+    private javax.swing.JTable productSoldTbl;
     private javax.swing.JTextField roleField;
+    private javax.swing.JTable staffNameId;
+    private javax.swing.JTable staffTransactDate;
     private javax.swing.JButton staffTransactionBtn;
     private javax.swing.JTable staffTransactionTable;
     private javax.swing.JComboBox<String> statusCombobox;
+    private javax.swing.JTextField totalQuantitySold;
+    private javax.swing.JTextField totalSalesField;
     private javax.swing.JButton updateBtn;
     private javax.swing.JButton usersHomeBtn1;
     private javax.swing.JButton usersHomeBtn2;
