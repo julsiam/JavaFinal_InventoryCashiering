@@ -30,31 +30,31 @@ public class CashierManagement extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
 
-        displayproducts();
+//        displayproducts();
         displaytransaction();
         dispProNamePrice();
 //        productDetailsCombobox();
 //        comboSql();
     }
 
-    public void displayproducts() {
-        DefaultTableModel producttable = (DefaultTableModel) tableproductdisplay.getModel();
-        int count = 0;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
-                Statement stmt = con.createStatement();
-
-                ResultSet datas = stmt.executeQuery("SELECT * FROM `inventory`");
-                while (datas.next()) {
-                    count = 1;
-                    producttable.addRow(new Object[]{datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
-                }
-            }
-        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
+//    public void displayproducts() {
+//        DefaultTableModel producttable = (DefaultTableModel) tableproductdisplay.getModel();
+//        int count = 0;
+//        try {
+//            Class.forName("com.mysql.jdbc.Driver");
+//            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+//                Statement stmt = con.createStatement();
+//
+//                ResultSet datas = stmt.executeQuery("SELECT * FROM `inventory`");
+//                while (datas.next()) {
+//                    count = 1;
+//                    producttable.addRow(new Object[]{datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
+//                }
+//            }
+//        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//    }
 
     public void dispProNamePrice() {
         DefaultTableModel priceproducttable = (DefaultTableModel) productPriceTbl.getModel();
@@ -141,8 +141,6 @@ public class CashierManagement extends javax.swing.JFrame {
         cashierTransactionBtn = new javax.swing.JButton();
         ManageUsersBtn = new javax.swing.JButton();
         staffTransactionBtn = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tableproductdisplay = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -196,11 +194,10 @@ public class CashierManagement extends javax.swing.JFrame {
         usersHomeBtn1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel21 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        cashierIdField = new javax.swing.JTextField();
         jPanel17 = new javax.swing.JPanel();
         cashierNameField = new javax.swing.JTextField();
+        cashierIdField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -212,14 +209,14 @@ public class CashierManagement extends javax.swing.JFrame {
 
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\1styrGroupB\\Downloads\\back6.PNG")); // NOI18N
-        jPanel8.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 520, 510));
+        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\1styrGroupB\\Downloads\\back8.png")); // NOI18N
+        jPanel8.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 660, 510));
 
-        jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 520, 740));
+        jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 700, 660));
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel9.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel9.setBackground(new java.awt.Color(153, 0, 51));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logOutBtn.setText("Log Out");
@@ -254,26 +251,9 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jPanel9.add(staffTransactionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 170, -1));
 
-        jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 470, 430, 180));
+        jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 430, 180));
 
-        tableproductdisplay.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Product Name", "Product Price", "Selling Price", "Quantity", "UoM", "Description"
-            }
-        ));
-        tableproductdisplay.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tableproductdisplayMouseClicked(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tableproductdisplay);
-
-        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 850, 390));
-
-        jPanel7.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 860, 730));
+        jPanel7.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 0, 670, 730));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -287,8 +267,6 @@ public class CashierManagement extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Home", jPanel4);
-
-        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel10.setBackground(new java.awt.Color(255, 153, 153));
 
@@ -312,8 +290,6 @@ public class CashierManagement extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addContainerGap())
         );
-
-        jPanel6.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 380, 50));
 
         jPanel11.setBackground(new java.awt.Color(0, 204, 153));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -365,8 +341,6 @@ public class CashierManagement extends javax.swing.JFrame {
         jLabel6.setText("Avail.Quanti.:");
         jPanel11.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 50, 90, -1));
 
-        jPanel6.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 70, 890, 190));
-
         sellDetailsTables.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -381,8 +355,6 @@ public class CashierManagement extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(sellDetailsTables);
-
-        jPanel6.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, 890, 240));
 
         jPanel12.setBackground(new java.awt.Color(204, 255, 204));
 
@@ -450,8 +422,6 @@ public class CashierManagement extends javax.swing.JFrame {
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        jPanel6.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 440, 310));
-
         jPanel13.setBackground(new java.awt.Color(255, 153, 153));
         jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -487,8 +457,6 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jPanel13.add(staffTransactionBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 170, -1));
 
-        jPanel6.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 570, 430, 160));
-
         refreshSellDetailsBtn.setText("Refresh");
         refreshSellDetailsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -500,7 +468,6 @@ public class CashierManagement extends javax.swing.JFrame {
                 refreshSellDetailsBtnActionPerformed(evt);
             }
         });
-        jPanel6.add(refreshSellDetailsBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 560, 80, 30));
 
         productPriceTbl.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -516,8 +483,6 @@ public class CashierManagement extends javax.swing.JFrame {
             }
         });
         jScrollPane3.setViewportView(productPriceTbl);
-
-        jPanel6.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 440, 280));
 
         jPanel16.setBackground(new java.awt.Color(0, 102, 102));
 
@@ -542,7 +507,62 @@ public class CashierManagement extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel6.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 20, 300, 40));
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(680, 680, 680)
+                        .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(189, 189, 189)
+                                .addComponent(refreshSellDetailsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(68, 68, 68)
+                                .addComponent(refreshSellDetailsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jTabbedPane1.addTab("Sell", jPanel6);
 
@@ -601,7 +621,7 @@ public class CashierManagement extends javax.swing.JFrame {
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
+            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Transaction", jPanel14);
@@ -655,7 +675,7 @@ public class CashierManagement extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("", jPanel15);
 
-        jPanel2.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 1400, 720));
+        jPanel2.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1400, 740));
 
         jPanel5.setBackground(new java.awt.Color(102, 0, 0));
 
@@ -682,57 +702,19 @@ public class CashierManagement extends javax.swing.JFrame {
 
         jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 480, -1));
 
-        jPanel21.setBackground(new java.awt.Color(255, 204, 204));
-
-        jLabel4.setText("Your ID:");
-
-        cashierIdField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
-
-        javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
-        jPanel21.setLayout(jPanel21Layout);
-        jPanel21Layout.setHorizontalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel21Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addComponent(cashierIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel21Layout.setVerticalGroup(
-            jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel21Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cashierIdField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(5, 5, 5))
-        );
-
-        jPanel2.add(jPanel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 10, 140, 50));
-
-        jPanel17.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel17.setBackground(new java.awt.Color(153, 0, 51));
+        jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cashierNameField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
+        jPanel17.add(cashierNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(12, 13, 246, 30));
 
-        javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
-        jPanel17.setLayout(jPanel17Layout);
-        jPanel17Layout.setHorizontalGroup(
-            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cashierNameField, javax.swing.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel17Layout.setVerticalGroup(
-            jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cashierNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        jPanel2.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 10, 270, 60));
 
-        jPanel2.add(jPanel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(1120, 10, 270, 50));
+        cashierIdField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
+        jPanel2.add(cashierIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 40, 30));
+
+        jLabel4.setText("Your ID:");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, 23));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 770));
 
@@ -740,11 +722,11 @@ public class CashierManagement extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1401, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 812, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
         );
 
         pack();
@@ -809,15 +791,140 @@ public class CashierManagement extends javax.swing.JFrame {
         jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_usersHomeBtn1MouseClicked
 
+    private void productPriceTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productPriceTblMouseClicked
+        DefaultTableModel priceproducttable = (DefaultTableModel) productPriceTbl.getModel();
+
+        String proName = (String) priceproducttable.getValueAt(productPriceTbl.getSelectedRow(), 0);
+        String price = (String) priceproducttable.getValueAt(productPriceTbl.getSelectedRow(), 1);
+        String quanti = (String) priceproducttable.getValueAt(productPriceTbl.getSelectedRow(), 2);
+
+        this.proNameField.setText(proName);
+        this.proNameField.setEditable(false);
+        this.priceField.setText(price);
+        this.priceField.setEditable(false);
+        this.availQuantiField.setText(quanti);
+        this.availQuantiField.setEditable(false);
+
+    }//GEN-LAST:event_productPriceTblMouseClicked
+
+    private void refreshSellDetailsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshSellDetailsBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_refreshSellDetailsBtnActionPerformed
+
+    private void refreshSellDetailsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshSellDetailsBtnMouseClicked
+        DefaultTableModel priceproducttable = (DefaultTableModel) productPriceTbl.getModel();
+        int priceCount = 0;
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+
+                ResultSet datas = stmt.executeQuery("SELECT * FROM `inventory`");
+
+                while (priceproducttable.getRowCount() > 0) {
+                    priceproducttable.removeRow(0);
+                }
+                while (datas.next()) {
+                    priceCount = 1;
+                    priceproducttable.addRow(new Object[]{datas.getString("ProductName"), datas.getString("SellingPrice"), datas.getString("quantity")});
+                }
+            }
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        DefaultTableModel cashierTransactionModel = (DefaultTableModel) sellDetailsTables.getModel();
+
+        int count = 0;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet sellData = stmt.executeQuery("SELECT * FROM `ctransactions`");
+
+                //                ResultSet newData = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
+                while (cashierTransactionModel.getRowCount() > 0) {
+                    cashierTransactionModel.removeRow(0);
+                }
+
+                while (sellData.next()) {
+                    count = 0;
+                    cashierTransactionModel.addRow(new Object[]{sellData.getString("CTransactionId"), sellData.getString("productName"), sellData.getString("Quantity"), sellData.getString("totalAmount"), sellData.getString("userID"), sellData.getString("date")});
+
+                }
+            }
+
+        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }//GEN-LAST:event_refreshSellDetailsBtnMouseClicked
+
+    private void staffTransactionBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_staffTransactionBtn1MouseClicked
+
+    private void ManageUsersBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageUsersBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ManageUsersBtn1MouseClicked
+
+    private void cashierTransactionBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransactionBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cashierTransactionBtn1MouseClicked
+
+    private void logOutBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logOutBtn1MouseClicked
+
+    private void sellDetailsTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellDetailsTablesMouseClicked
+
+    }//GEN-LAST:event_sellDetailsTablesMouseClicked
+
+    private void resetBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetBtnMouseClicked
+        if (evt.getSource() == resetBtn) {
+            this.proNameField.setText(null);
+            this.totalAmountField.setText(null);
+            this.productquantityfield.setText(null);
+            this.priceField.setText(null);
+            this.availQuantiField.setText(null);
+        }
+    }//GEN-LAST:event_resetBtnMouseClicked
+
+    private void productquantityfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productquantityfieldKeyReleased
+        if (this.productquantityfield.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Input Quantity", "Alert", JOptionPane.ERROR_MESSAGE);
+            this.totalAmountField.setText(null);
+
+        } else {
+
+            try {
+                int inputQuantity = Integer.parseInt(this.productquantityfield.getText());
+                int proPrice = Integer.parseInt(this.priceField.getText());
+
+                int total = inputQuantity * proPrice;
+
+                this.totalAmountField.setText(Integer.toString(total));
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }//GEN-LAST:event_productquantityfieldKeyReleased
+
+    private void productquantityfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productquantityfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_productquantityfieldActionPerformed
+
     private void cashierSellBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierSellBtnMouseClicked
 
-//        DefaultTableModel cahiersTableModel = (DefaultTableModel) sellDetailsTables.getModel();
+        //        DefaultTableModel cahiersTableModel = (DefaultTableModel) sellDetailsTables.getModel();
         if ((this.proNameField.getText().isEmpty()) || this.productquantityfield.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Choose a product...", "Alert", JOptionPane.ERROR_MESSAGE);
-            
+
         } else if (Integer.parseInt(availQuantiField.getText()) <= 10) {
             JOptionPane.showMessageDialog(null, "Low Inventory. Not enough quantity ", "Alert", JOptionPane.ERROR_MESSAGE);
-            
+
         } else {
             LocalDateTime myDateObj = LocalDateTime.now();
             DateTimeFormatter orderDate = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
@@ -834,7 +941,7 @@ public class CashierManagement extends javax.swing.JFrame {
             this.productnamelabel.setText("Product Name: " + (String) this.proNameField.getText());
             this.productquantitylabel.setText("Quantity: " + Integer.parseInt(this.productquantityfield.getText()) + " pack/s");
             this.producttotallabel.setText("Total: Php " + Integer.parseInt(this.totalAmountField.getText()) + ".00");
-//from here
+            //from here
             try {
                 DefaultTableModel cahiersTableModel = (DefaultTableModel) sellDetailsTables.getModel();
                 Class.forName("com.mysql.jdbc.Driver");
@@ -874,118 +981,7 @@ public class CashierManagement extends javax.swing.JFrame {
             this.availQuantiField.setText(null);
 
         }
-
     }//GEN-LAST:event_cashierSellBtnMouseClicked
-
-    private void productquantityfieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_productquantityfieldKeyReleased
-        if (this.productquantityfield.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Input Quantity", "Alert", JOptionPane.ERROR_MESSAGE);
-            this.totalAmountField.setText(null);
-
-        } else {
-
-            try {
-                int inputQuantity = Integer.parseInt(this.productquantityfield.getText());
-                int proPrice = Integer.parseInt(this.priceField.getText());
-
-                int total = inputQuantity * proPrice;
-
-                this.totalAmountField.setText(Integer.toString(total));
-
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
-    }//GEN-LAST:event_productquantityfieldKeyReleased
-
-    private void tableproductdisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableproductdisplayMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tableproductdisplayMouseClicked
-
-    private void logOutBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_logOutBtn1MouseClicked
-
-    private void cashierTransactionBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransactionBtn1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cashierTransactionBtn1MouseClicked
-
-    private void ManageUsersBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageUsersBtn1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ManageUsersBtn1MouseClicked
-
-    private void staffTransactionBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionBtn1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_staffTransactionBtn1MouseClicked
-
-    private void sellDetailsTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellDetailsTablesMouseClicked
-
-    }//GEN-LAST:event_sellDetailsTablesMouseClicked
-
-    private void refreshSellDetailsBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshSellDetailsBtnMouseClicked
-        DefaultTableModel cashierTransactionModel = (DefaultTableModel) sellDetailsTables.getModel();
-
-        int count = 0;
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
-                Statement stmt = con.createStatement();
-                ResultSet sellData = stmt.executeQuery("SELECT * FROM `ctransactions`");
-
-//                ResultSet newData = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
-                while (cashierTransactionModel.getRowCount() > 0) {
-                    cashierTransactionModel.removeRow(0);
-                }
-
-                while (sellData.next()) {
-                    count = 0;
-                    cashierTransactionModel.addRow(new Object[]{sellData.getString("CTransactionId"), sellData.getString("productName"), sellData.getString("Quantity"), sellData.getString("totalAmount"), sellData.getString("userID"), sellData.getString("date")});
-
-                }
-            }
-
-        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
-            System.out.println(e.getMessage());
-        }
-
-
-    }//GEN-LAST:event_refreshSellDetailsBtnMouseClicked
-
-    private void refreshSellDetailsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshSellDetailsBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_refreshSellDetailsBtnActionPerformed
-
-    private void productPriceTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productPriceTblMouseClicked
-        DefaultTableModel priceproducttable = (DefaultTableModel) productPriceTbl.getModel();
-
-        String proName = (String) priceproducttable.getValueAt(productPriceTbl.getSelectedRow(), 0);
-        String price = (String) priceproducttable.getValueAt(productPriceTbl.getSelectedRow(), 1);
-        String quanti = (String) priceproducttable.getValueAt(productPriceTbl.getSelectedRow(), 2);
-
-        this.proNameField.setText(proName);
-        this.proNameField.setEditable(false);
-        this.priceField.setText(price);
-        this.priceField.setEditable(false);
-        this.availQuantiField.setText(quanti);
-        this.availQuantiField.setEditable(false);
-
-
-    }//GEN-LAST:event_productPriceTblMouseClicked
-
-    private void productquantityfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productquantityfieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_productquantityfieldActionPerformed
-
-    private void resetBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetBtnMouseClicked
-        if (evt.getSource() == resetBtn) {
-            this.proNameField.setText(null);
-            this.totalAmountField.setText(null);
-            this.productquantityfield.setText(null);
-            this.priceField.setText(null);
-            this.availQuantiField.setText(null);
-        }
-    }//GEN-LAST:event_resetBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1069,7 +1065,6 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
-    private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -1078,7 +1073,6 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton logOutBtn;
@@ -1097,7 +1091,6 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JTable sellDetailsTables;
     private javax.swing.JButton staffTransactionBtn;
     private javax.swing.JButton staffTransactionBtn1;
-    private javax.swing.JTable tableproductdisplay;
     private javax.swing.JLabel title;
     private javax.swing.JLabel title1;
     private javax.swing.JLabel title2;

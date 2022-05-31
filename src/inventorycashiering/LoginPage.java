@@ -271,8 +271,13 @@ public class LoginPage extends javax.swing.JFrame {
                         String role = rs.getString("Role");
                         String status = rs.getString("Status");
                         if ("Admin".equals(role) && "Active".equals(status)) {
-                            new AdminManagement().setVisible(true);
-                            this.setVisible(false);
+                            AdminManagement mm = new AdminManagement();
+                            mm.setVisible(true);
+                            mm.adminIdField.setEditable(false);
+                            mm.adminIdField.setText(rs.getString("UserID"));
+                            mm.adminNameField.setEditable(false);
+                            mm.adminNameField.setText("    Welcome on board " + rs.getString("firstname"));
+                            this.dispose();
                         } else if ("Staff".equals(role) && "Active".equals(status)) {
                             InventoryManagement im = new InventoryManagement();
                             im.setVisible(true);

@@ -146,6 +146,7 @@ public class InventoryManagement extends javax.swing.JFrame {
         jPanel15 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         staffNameField = new javax.swing.JTextField();
+        jPanel26 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -519,7 +520,9 @@ public class InventoryManagement extends javax.swing.JFrame {
         jTabbedPane1.addTab("transaction", jPanel9);
 
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1130, 590));
-        jPanel1.add(staffIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 40, 30));
+
+        staffIdField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
+        jPanel1.add(staffIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 50, 30));
 
         jLabel1.setText("Your ID:");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
@@ -547,8 +550,14 @@ public class InventoryManagement extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jPanel1.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, -1, -1));
-        jPanel1.add(staffNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 20, 190, 30));
+        jPanel1.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
+
+        staffNameField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
+        jPanel1.add(staffNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 20, 270, 30));
+
+        jPanel26.setBackground(new java.awt.Color(153, 0, 51));
+        jPanel26.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jPanel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 10, 290, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1146,6 +1155,7 @@ public class InventoryManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel20;
+    private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;

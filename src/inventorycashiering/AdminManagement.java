@@ -12,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -62,7 +64,7 @@ public class AdminManagement extends javax.swing.JFrame {
     }
 
     public void dispStaffTransaction() {
-        DefaultTableModel staffTransactionModel = (DefaultTableModel) staffTransactionTable.getModel();
+        DefaultTableModel staffTransactionModel = (DefaultTableModel) filterStaffTransactionTable.getModel();
         int count = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -178,8 +180,8 @@ public class AdminManagement extends javax.swing.JFrame {
 
         }
     }
-    
-     public void thresholdLimit() {
+
+    public void thresholdLimit() {
         DefaultTableModel transactNameModel = (DefaultTableModel) tresholdTbl.getModel();
         int nameCount;
         try {
@@ -197,10 +199,6 @@ public class AdminManagement extends javax.swing.JFrame {
 
         }
     }
-    
-    
-    
-    
 
 //    private void statusCombo() {
 //        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
@@ -236,8 +234,6 @@ public class AdminManagement extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         logOutBtn = new javax.swing.JButton();
         cashierTransactionBtn = new javax.swing.JButton();
@@ -281,14 +277,17 @@ public class AdminManagement extends javax.swing.JFrame {
         CTmanageUsersBtn = new javax.swing.JButton();
         CTstaffTransactionBtn4 = new javax.swing.JButton();
         usersHomeBtn2 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        staffTransactionTable = new javax.swing.JTable();
         jPanel21 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         staffNameId = new javax.swing.JTable();
         jScrollPane5 = new javax.swing.JScrollPane();
         staffTransactDate = new javax.swing.JTable();
+        jPanel25 = new javax.swing.JPanel();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        filterStaffTransactionTable = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        specificStaffTransactionTable = new javax.swing.JTable();
         jPanel15 = new javax.swing.JPanel();
         jPanel19 = new javax.swing.JPanel();
         logOutBtn3 = new javax.swing.JButton();
@@ -323,6 +322,12 @@ public class AdminManagement extends javax.swing.JFrame {
         STmanageUserbtn1 = new javax.swing.JButton();
         STstaffTransactionBtn4 = new javax.swing.JButton();
         usersHomeBtn3 = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        adminIdField = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        adminNameField = new javax.swing.JTextField();
+        jPanel26 = new javax.swing.JPanel();
 
         jPanel16.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -359,32 +364,7 @@ public class AdminManagement extends javax.swing.JFrame {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(102, 0, 0));
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 204, 204));
-        jLabel1.setText("Admin Management Section");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
-
-        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 450, 60));
-
-        jPanel9.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel9.setBackground(new java.awt.Color(153, 0, 51));
         jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logOutBtn.setText("Log Out");
@@ -597,7 +577,7 @@ public class AdminManagement extends javax.swing.JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+            .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, 570, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("MUsers", jPanel6);
@@ -649,23 +629,6 @@ public class AdminManagement extends javax.swing.JFrame {
 
         jPanel18.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 380, 420, 170));
 
-        staffTransactionTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Transaction_ID", "Transaction Date", "UserID", "InventoryID", "Product Name", "Type of Transaction"
-            }
-        ));
-        staffTransactionTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                staffTransactionTableMouseClicked(evt);
-            }
-        });
-        jScrollPane3.setViewportView(staffTransactionTable);
-
-        jPanel18.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 760, 290));
-
         jPanel21.setBackground(new java.awt.Color(255, 204, 204));
 
         jLabel14.setFont(new java.awt.Font("Tahoma", 3, 20)); // NOI18N
@@ -679,7 +642,7 @@ public class AdminManagement extends javax.swing.JFrame {
             .addGroup(jPanel21Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -696,9 +659,14 @@ public class AdminManagement extends javax.swing.JFrame {
                 "StaffID", "Staff Name"
             }
         ));
+        staffNameId.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                staffNameIdMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(staffNameId);
 
-        jPanel18.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 410, 240, 130));
+        jPanel18.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 420, 240, 110));
 
         staffTransactDate.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -708,9 +676,53 @@ public class AdminManagement extends javax.swing.JFrame {
                 "Transaction Date"
             }
         ));
+        staffTransactDate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                staffTransactDateMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(staffTransactDate);
 
-        jPanel18.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 410, 240, 130));
+        jPanel18.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 420, 240, 110));
+
+        jPanel25.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel25.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        filterStaffTransactionTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Transaction_ID", "Transaction Date", "UserID", "InventoryID", "Product Name", "Type of Transaction"
+            }
+        ));
+        filterStaffTransactionTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                filterStaffTransactionTableMouseClicked(evt);
+            }
+        });
+        jScrollPane10.setViewportView(filterStaffTransactionTable);
+
+        jPanel25.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 690, 240));
+
+        specificStaffTransactionTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Staff ID", "Date", "Product Name", "Type of Transaction"
+            }
+        ));
+        specificStaffTransactionTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                specificStaffTransactionTableMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(specificStaffTransactionTable);
+
+        jPanel25.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 30, 370, 240));
+
+        jPanel18.add(jPanel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 1090, 300));
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -787,7 +799,7 @@ public class AdminManagement extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(cashierTransTables);
 
-        jPanel15.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 630, 270));
+        jPanel15.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 630, 210));
 
         jPanel22.setBackground(new java.awt.Color(255, 204, 204));
 
@@ -861,7 +873,7 @@ public class AdminManagement extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Product", "Sold"
+                "Product", "Quanity Sold"
             }
         ));
         jScrollPane6.setViewportView(productSoldTbl);
@@ -878,6 +890,11 @@ public class AdminManagement extends javax.swing.JFrame {
                 "StaffID", "Staff Name"
             }
         ));
+        cashierNameId.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cashierNameIdMouseClicked(evt);
+            }
+        });
         jScrollPane8.setViewportView(cashierNameId);
 
         jPanel15.add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 420, 240, 130));
@@ -967,7 +984,56 @@ public class AdminManagement extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Threshold", jPanel11);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1120, 590));
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 1120, 600));
+
+        jPanel3.setBackground(new java.awt.Color(102, 0, 0));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 204, 204));
+        jLabel1.setText("Admin Management Section");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(52, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 353, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(45, 45, 45))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 10, -1, -1));
+
+        adminIdField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
+        jPanel1.add(adminIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, 50, 30));
+
+        jLabel17.setText("Your ID:");
+        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, -1, -1));
+
+        adminNameField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
+        jPanel1.add(adminNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 20, 260, 30));
+
+        jPanel26.setBackground(new java.awt.Color(153, 0, 51));
+
+        javax.swing.GroupLayout jPanel26Layout = new javax.swing.GroupLayout(jPanel26);
+        jPanel26.setLayout(jPanel26Layout);
+        jPanel26Layout.setHorizontalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 280, Short.MAX_VALUE)
+        );
+        jPanel26Layout.setVerticalGroup(
+            jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 50, Short.MAX_VALUE)
+        );
+
+        jPanel1.add(jPanel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 10, 280, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1252,9 +1318,9 @@ public class AdminManagement extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_murResetBtnActionPerformed
 
-    private void staffTransactionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionTableMouseClicked
+    private void specificStaffTransactionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_specificStaffTransactionTableMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_staffTransactionTableMouseClicked
+    }//GEN-LAST:event_specificStaffTransactionTableMouseClicked
 
     private void cashierTransTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransTablesMouseClicked
 
@@ -1299,14 +1365,18 @@ public class AdminManagement extends javax.swing.JFrame {
 //                    DefaultTableModel productSoldTableModel = (DefaultTableModel) productSoldTbl.getModel();
 //
 //                }
-                DefaultTableModel productSoldTableModel = (DefaultTableModel) productSoldTbl.getModel();
+                DefaultTableModel productSoldTableModel = (DefaultTableModel) cashierTransTables.getModel();
                 int dateCount;
                 try {
 
                     Statement stmt = con.createStatement();
-                    ResultSet proData = stmt.executeQuery("SELECT DISTINCT `productName`, `Quantity` FROM `ctransactions`WHERE Date = '" + transactionDate + "'");
+                    ResultSet proData = stmt.executeQuery("SELECT DISTINCT `CTransactionID`, `productName`, `Quantity`, `totalAmount`, `UserID`, `Date` FROM `ctransactions` WHERE Date = '" + transactionDate + "'");
+
+                    while (productSoldTableModel.getRowCount() > 0) {
+                        productSoldTableModel.removeRow(0);
+                    }
                     while (proData.next()) {
-                        productSoldTableModel.addRow(new Object[]{proData.getString("productName"), proData.getString("Quantity")});
+                        productSoldTableModel.addRow(new Object[]{proData.getString("CTransactionID"), proData.getString("productName"),proData.getString("Quantity"), proData.getString("totalAmount"),proData.getString("UserID"), proData.getString("Date"),});
                     }
 
                 } catch (Exception e) {
@@ -1341,6 +1411,115 @@ public class AdminManagement extends javax.swing.JFrame {
     private void usersHomeBtn3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersHomeBtn3MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_usersHomeBtn3MouseClicked
+
+    private void cashierNameIdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierNameIdMouseClicked
+        DefaultTableModel transactionDateTableModel = (DefaultTableModel) cashierNameId.getModel();
+
+        String staffName = (String) transactionDateTableModel.getValueAt(cashierNameId.getSelectedRow(), 0);
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet proData = stmt.executeQuery("SELECT DISTINCT `productName`, `Quantity` FROM `ctransactions`WHERE UserID = '" + staffName + "'");
+
+                DefaultTableModel productSoldTableModel = (DefaultTableModel) productSoldTbl.getModel();
+                int dateCount;
+                try {
+
+                    while (productSoldTableModel.getRowCount() > 0) {
+                        productSoldTableModel.removeRow(0);
+                    }
+                    while (proData.next()) {
+                        productSoldTableModel.addRow(new Object[]{proData.getString("productName"), proData.getString("Quantity")});
+                    }
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminManagement.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AdminManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_cashierNameIdMouseClicked
+
+    private void filterStaffTransactionTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_filterStaffTransactionTableMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filterStaffTransactionTableMouseClicked
+
+    private void staffTransactDateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactDateMouseClicked
+        DefaultTableModel stransactionDateTableModel = (DefaultTableModel) staffTransactDate.getModel();
+
+        String staffDate = (String) stransactionDateTableModel.getValueAt(staffTransactDate.getSelectedRow(), 0);
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet proData = stmt.executeQuery("SELECT `STransactionID`, `InventoryID`, `productName`, `Quantity`, `TypeOfTransaction`, `UserID`, `TransactionDate` FROM `stransactions` WHERE `TransactionDate` =  '" + staffDate + "'");
+
+                DefaultTableModel staffTransactTableModel = (DefaultTableModel) filterStaffTransactionTable.getModel();
+                int dateCount;
+                try {
+
+                    while (staffTransactTableModel.getRowCount() > 0) {
+                        staffTransactTableModel.removeRow(0);
+                    }
+                    while (proData.next()) {
+                        staffTransactTableModel.addRow(new Object[]{proData.getString("STransactionId"), proData.getString("transactionDate"), proData.getString("userId"), proData.getString("InventoryId"), proData.getString("productName"), proData.getString("typeoftransaction")});
+                    }
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminManagement.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AdminManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_staffTransactDateMouseClicked
+
+    private void staffNameIdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffNameIdMouseClicked
+        DefaultTableModel stransactionDateTableModel = (DefaultTableModel) staffNameId.getModel();
+
+        String staffName = (String) stransactionDateTableModel.getValueAt(staffNameId.getSelectedRow(), 0);
+        
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
+                Statement stmt = con.createStatement();
+                ResultSet proData = stmt.executeQuery("SELECT `productName`, `TypeOfTransaction`, `UserID`, `TransactionDate` FROM `stransactions` WHERE `UserID` =  '" + staffName + "'");
+
+                DefaultTableModel staffTransactTableModel = (DefaultTableModel) specificStaffTransactionTable.getModel();
+                int dateCount;
+                try {
+
+                    while (staffTransactTableModel.getRowCount() > 0) {
+                        staffTransactTableModel.removeRow(0);
+                    }
+                    while (proData.next()) {
+                        staffTransactTableModel.addRow(new Object[]{proData.getString("UserID"), proData.getString("TransactionDate"), proData.getString("productName"), proData.getString("TypeOfTransaction")});
+                    }
+
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(AdminManagement.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(AdminManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_staffNameIdMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1393,6 +1572,8 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JButton STstaffTransactionBtn3;
     private javax.swing.JButton STstaffTransactionBtn4;
     private javax.swing.JButton addBtn;
+    public javax.swing.JTextField adminIdField;
+    public javax.swing.JTextField adminNameField;
     private javax.swing.JTable cashierNameId;
     private javax.swing.JTable cashierTransTables;
     private javax.swing.JTable cashierTransactDate;
@@ -1400,6 +1581,7 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JButton deleteBtn;
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField fNameField;
+    private javax.swing.JTable filterStaffTransactionTable;
     private javax.swing.JTextField idfield;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1409,6 +1591,7 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1434,6 +1617,8 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
+    private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -1442,6 +1627,7 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1462,10 +1648,10 @@ public class AdminManagement extends javax.swing.JFrame {
     private javax.swing.JTextField passwordField;
     private javax.swing.JTable productSoldTbl;
     private javax.swing.JTextField roleField;
+    private javax.swing.JTable specificStaffTransactionTable;
     private javax.swing.JTable staffNameId;
     private javax.swing.JTable staffTransactDate;
     private javax.swing.JButton staffTransactionBtn;
-    private javax.swing.JTable staffTransactionTable;
     private javax.swing.JComboBox<String> statusCombobox;
     private javax.swing.JTextField totalQuantitySold;
     private javax.swing.JTextField totalSalesField;
