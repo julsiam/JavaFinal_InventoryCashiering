@@ -283,8 +283,8 @@ public class LoginPage extends javax.swing.JFrame {
                             im.setVisible(true);
                             im.staffIdField.setEditable(false);
                             im.staffIdField.setText(rs.getString("UserID"));
-                            im.staffNameField.setEditable(false);
-                            im.staffNameField.setText("    Welcome on board " + rs.getString("firstname"));
+                            im.staffField.setEditable(false);
+                            im.staffField.setText("    Welcome on board " + rs.getString("firstname"));
                             this.dispose();
 
                         } else if ("Cashier".equals(role) && "Active".equals(status)) {

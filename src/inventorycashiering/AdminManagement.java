@@ -399,7 +399,7 @@ public class AdminManagement extends javax.swing.JFrame {
         });
         jPanel9.add(staffTransactionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 170, -1));
 
-        jPanel2.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 240, 330));
+        jPanel2.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 130, 240, 330));
 
         jPanel7.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 530, 560));
 
@@ -454,7 +454,7 @@ public class AdminManagement extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(manageUserTable);
 
-        jPanel12.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 1060, 220));
+        jPanel12.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 1060, 200));
 
         jLabel5.setText("Status:");
         jPanel12.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 390, -1, -1));
@@ -516,7 +516,7 @@ public class AdminManagement extends javax.swing.JFrame {
         });
         jPanel12.add(deleteBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 500, -1, -1));
 
-        jPanel17.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel17.setBackground(new java.awt.Color(153, 0, 51));
         jPanel17.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logOutBtn2.setText("Log Out");
@@ -584,7 +584,7 @@ public class AdminManagement extends javax.swing.JFrame {
 
         jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel20.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel20.setBackground(new java.awt.Color(153, 0, 51));
         jPanel20.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logOutBtn4.setText("Log Out");
@@ -703,7 +703,7 @@ public class AdminManagement extends javax.swing.JFrame {
         });
         jScrollPane10.setViewportView(filterStaffTransactionTable);
 
-        jPanel25.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 690, 240));
+        jPanel25.add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 690, 260));
 
         specificStaffTransactionTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -720,7 +720,7 @@ public class AdminManagement extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(specificStaffTransactionTable);
 
-        jPanel25.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 30, 370, 240));
+        jPanel25.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 20, 370, 260));
 
         jPanel18.add(jPanel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 1090, 300));
 
@@ -739,13 +739,18 @@ public class AdminManagement extends javax.swing.JFrame {
 
         jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel19.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel19.setBackground(new java.awt.Color(153, 0, 51));
         jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logOutBtn3.setText("Log Out");
         logOutBtn3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logOutBtn3MouseClicked(evt);
+            }
+        });
+        logOutBtn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutBtn3ActionPerformed(evt);
             }
         });
         jPanel19.add(logOutBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 170, -1));
@@ -935,15 +940,20 @@ public class AdminManagement extends javax.swing.JFrame {
         ));
         jScrollPane9.setViewportView(tresholdTbl);
 
-        jPanel11.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 930, 280));
+        jPanel11.add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 930, 280));
 
-        jPanel24.setBackground(new java.awt.Color(255, 153, 153));
+        jPanel24.setBackground(new java.awt.Color(153, 0, 51));
         jPanel24.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logOutBtn5.setText("Log Out");
         logOutBtn5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 logOutBtn5MouseClicked(evt);
+            }
+        });
+        logOutBtn5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutBtn5ActionPerformed(evt);
             }
         });
         jPanel24.add(logOutBtn5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 170, -1));
@@ -954,12 +964,22 @@ public class AdminManagement extends javax.swing.JFrame {
                 STcashiersTransbtn1MouseClicked(evt);
             }
         });
+        STcashiersTransbtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                STcashiersTransbtn1ActionPerformed(evt);
+            }
+        });
         jPanel24.add(STcashiersTransbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
 
         STmanageUserbtn1.setText("Manage Users");
         STmanageUserbtn1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 STmanageUserbtn1MouseClicked(evt);
+            }
+        });
+        STmanageUserbtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                STmanageUserbtn1ActionPerformed(evt);
             }
         });
         jPanel24.add(STmanageUserbtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 170, -1));
@@ -970,12 +990,22 @@ public class AdminManagement extends javax.swing.JFrame {
                 STstaffTransactionBtn4MouseClicked(evt);
             }
         });
+        STstaffTransactionBtn4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                STstaffTransactionBtn4ActionPerformed(evt);
+            }
+        });
         jPanel24.add(STstaffTransactionBtn4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
 
         usersHomeBtn3.setText("Home");
         usersHomeBtn3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 usersHomeBtn3MouseClicked(evt);
+            }
+        });
+        usersHomeBtn3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usersHomeBtn3ActionPerformed(evt);
             }
         });
         jPanel24.add(usersHomeBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 170, -1));
@@ -1376,7 +1406,7 @@ public class AdminManagement extends javax.swing.JFrame {
                         productSoldTableModel.removeRow(0);
                     }
                     while (proData.next()) {
-                        productSoldTableModel.addRow(new Object[]{proData.getString("CTransactionID"), proData.getString("productName"),proData.getString("Quantity"), proData.getString("totalAmount"),proData.getString("UserID"), proData.getString("Date"),});
+                        productSoldTableModel.addRow(new Object[]{proData.getString("CTransactionID"), proData.getString("productName"), proData.getString("Quantity"), proData.getString("totalAmount"), proData.getString("UserID"), proData.getString("Date"),});
                     }
 
                 } catch (Exception e) {
@@ -1489,7 +1519,7 @@ public class AdminManagement extends javax.swing.JFrame {
         DefaultTableModel stransactionDateTableModel = (DefaultTableModel) staffNameId.getModel();
 
         String staffName = (String) stransactionDateTableModel.getValueAt(staffNameId.getSelectedRow(), 0);
-        
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
@@ -1520,6 +1550,35 @@ public class AdminManagement extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_staffNameIdMouseClicked
+
+    private void usersHomeBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersHomeBtn3ActionPerformed
+        jTabbedPane1.setSelectedIndex(0);
+    }//GEN-LAST:event_usersHomeBtn3ActionPerformed
+
+    private void STstaffTransactionBtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_STstaffTransactionBtn4ActionPerformed
+        jTabbedPane1.setSelectedIndex(2);
+    }//GEN-LAST:event_STstaffTransactionBtn4ActionPerformed
+
+    private void STmanageUserbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_STmanageUserbtn1ActionPerformed
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_STmanageUserbtn1ActionPerformed
+
+    private void STcashiersTransbtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_STcashiersTransbtn1ActionPerformed
+        jTabbedPane1.setSelectedIndex(3);    }//GEN-LAST:event_STcashiersTransbtn1ActionPerformed
+
+    private void logOutBtn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtn5ActionPerformed
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
+    }//GEN-LAST:event_logOutBtn5ActionPerformed
+
+    private void logOutBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtn3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logOutBtn3ActionPerformed
 
     /**
      * @param args the command line arguments

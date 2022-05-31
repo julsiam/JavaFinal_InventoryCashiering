@@ -38,18 +38,18 @@ public class InventoryManagement extends javax.swing.JFrame {
 
     public void dispStaffTransaction() {
         DefaultTableModel staffTransactionModel = (DefaultTableModel) staffTransactionTable.getModel();
+        String yourTransact = (String)this.staffIdField.getText();
         int count = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
                 Statement stmt = con.createStatement();
-                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `stransactions`");
+                ResultSet transactdata = stmt.executeQuery("SELECT `STransactionID`, `InventoryID`, `productName`, `Quantity`, `TypeOfTransaction`, `UserID`, `TransactionDate` FROM `stransactions` WHERE `UserID` ='"+ yourTransact +"'");
 
 //                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
                 while (transactdata.next()) {
                     count = 0;
                     staffTransactionModel.addRow(new Object[]{transactdata.getString("STransactionId"), transactdata.getString("transactionDate"), transactdata.getString("userId"), transactdata.getString("InventoryId"), transactdata.getString("productName"), transactdata.getString("typeoftransaction")});
-
                 }
             }
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
@@ -145,8 +145,8 @@ public class InventoryManagement extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        staffNameField = new javax.swing.JTextField();
         jPanel26 = new javax.swing.JPanel();
+        staffField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -498,13 +498,13 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         jPanel4.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 310, 50));
 
-        transactRefreshBtn.setText("Refresh");
+        transactRefreshBtn.setText("View Your Transaction");
         transactRefreshBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 transactRefreshBtnMouseClicked(evt);
             }
         });
-        jPanel4.add(transactRefreshBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 460, -1, -1));
+        jPanel4.add(transactRefreshBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 460, -1, 40));
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -552,11 +552,12 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         jPanel1.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, -1, -1));
 
-        staffNameField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
-        jPanel1.add(staffNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 20, 270, 30));
-
         jPanel26.setBackground(new java.awt.Color(153, 0, 51));
         jPanel26.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        staffField.setFont(new java.awt.Font("Courier New", 3, 14)); // NOI18N
+        jPanel26.add(staffField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 270, 30));
+
         jPanel1.add(jPanel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 10, 290, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1023,13 +1024,13 @@ public class InventoryManagement extends javax.swing.JFrame {
 
     private void transactRefreshBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transactRefreshBtnMouseClicked
         DefaultTableModel staffTransactionModel = (DefaultTableModel) staffTransactionTable.getModel();
-
+        String yourTransact = (String) this.staffIdField.getText();
         int count = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
                 Statement stmt = con.createStatement();
-                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `stransactions`");
+                ResultSet transactdata = stmt.executeQuery("SELECT `STransactionID`, `InventoryID`, `productName`, `Quantity`, `TypeOfTransaction`, `UserID`, `TransactionDate` FROM `stransactions` WHERE `UserID` ='"+ yourTransact +"' ");
 
                 //                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
                 while (staffTransactionModel.getRowCount() > 0) {
@@ -1179,8 +1180,8 @@ public class InventoryManagement extends javax.swing.JFrame {
     private javax.swing.JTextField productpricefield;
     private javax.swing.JTextField quantityfield;
     private javax.swing.JTextField sellingpricefield;
+    public javax.swing.JTextField staffField;
     public javax.swing.JTextField staffIdField;
-    public javax.swing.JTextField staffNameField;
     private javax.swing.JTable staffTransactionTable;
     private javax.swing.JTextField statusField;
     private javax.swing.JTextField thresholdField;

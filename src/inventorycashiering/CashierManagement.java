@@ -31,14 +31,14 @@ public class CashierManagement extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
 
 //        displayproducts();
-        displaytransaction();
+        displayTransaction();
         dispProNamePrice();
 //        productDetailsCombobox();
 //        comboSql();
     }
 
 //    public void displayproducts() {
-//        DefaultTableModel producttable = (DefaultTableModel) tableproductdisplay.getModel();
+//        DefaultTableModel producttable = (DefaultTableModel) productPriceTbl.getModel();
 //        int count = 0;
 //        try {
 //            Class.forName("com.mysql.jdbc.Driver");
@@ -48,14 +48,15 @@ public class CashierManagement extends javax.swing.JFrame {
 //                ResultSet datas = stmt.executeQuery("SELECT * FROM `inventory`");
 //                while (datas.next()) {
 //                    count = 1;
-//                    producttable.addRow(new Object[]{datas.getString("ProductName"), datas.getString("BuyingPrice"), datas.getString("SellingPrice"), datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
+//                    producttable.addRow(new Object[]{datas.getString("ProductName"), datas.getString("BuyingPrice"), "Php " + datas.getString("SellingPrice") + ".00", datas.getString("quantity"), datas.getString("UnitOfMeasure"), datas.getString("description")});
 //                }
 //            }
 //        } catch (HeadlessException | ClassNotFoundException | SQLException e) {
 //            System.out.println(e.getMessage());
 //        }
 //    }
-
+    
+    
     public void dispProNamePrice() {
         DefaultTableModel priceproducttable = (DefaultTableModel) productPriceTbl.getModel();
         int count = 0;
@@ -104,14 +105,17 @@ public class CashierManagement extends javax.swing.JFrame {
 //        }
 //
 //    }
-    public void displaytransaction() {
+    public void displayTransaction() {
         DefaultTableModel cashierTransactionModel = (DefaultTableModel) sellDetailsTables.getModel();
+        
+        String cashierTransact = (String) this.cashierIdField.getText();
+
         int count = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
                 Statement stmt = con.createStatement();
-                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `ctransactions`");
+                ResultSet transactdata = stmt.executeQuery("SELECT * FROM `ctransactions`WHERE `UserID` = '" + cashierTransact +"'");
 
 //                ResultSet datas = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
                 while (transactdata.next()) {
@@ -124,6 +128,7 @@ public class CashierManagement extends javax.swing.JFrame {
         }
     }
 
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -139,8 +144,7 @@ public class CashierManagement extends javax.swing.JFrame {
         jPanel9 = new javax.swing.JPanel();
         logOutBtn = new javax.swing.JButton();
         cashierTransactionBtn = new javax.swing.JButton();
-        ManageUsersBtn = new javax.swing.JButton();
-        staffTransactionBtn = new javax.swing.JButton();
+        sellProBtn = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -167,31 +171,15 @@ public class CashierManagement extends javax.swing.JFrame {
         producttotallabel = new javax.swing.JLabel();
         title1 = new javax.swing.JLabel();
         title2 = new javax.swing.JLabel();
-        jPanel13 = new javax.swing.JPanel();
+        sellCashierProBtn = new javax.swing.JPanel();
         logOutBtn1 = new javax.swing.JButton();
-        cashierTransactionBtn1 = new javax.swing.JButton();
-        ManageUsersBtn1 = new javax.swing.JButton();
-        staffTransactionBtn1 = new javax.swing.JButton();
+        homeBtn = new javax.swing.JButton();
+        sellCashierBtn = new javax.swing.JButton();
         refreshSellDetailsBtn = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         productPriceTbl = new javax.swing.JTable();
         jPanel16 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
-        jPanel18 = new javax.swing.JPanel();
-        jPanel20 = new javax.swing.JPanel();
-        logOutBtn4 = new javax.swing.JButton();
-        CTcashierTrans = new javax.swing.JButton();
-        CTmanageUsersBtn = new javax.swing.JButton();
-        CTstaffTransactionBtn4 = new javax.swing.JButton();
-        usersHomeBtn2 = new javax.swing.JButton();
-        jPanel15 = new javax.swing.JPanel();
-        jPanel19 = new javax.swing.JPanel();
-        logOutBtn3 = new javax.swing.JButton();
-        STcashiersTransbtn = new javax.swing.JButton();
-        STmanageUserbtn = new javax.swing.JButton();
-        STstaffTransactionBtn3 = new javax.swing.JButton();
-        usersHomeBtn1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel17 = new javax.swing.JPanel();
@@ -225,7 +213,7 @@ public class CashierManagement extends javax.swing.JFrame {
                 logOutBtnMouseClicked(evt);
             }
         });
-        jPanel9.add(logOutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 110, 170, -1));
+        jPanel9.add(logOutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 140, 190, 40));
 
         cashierTransactionBtn.setText("Home");
         cashierTransactionBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -233,25 +221,17 @@ public class CashierManagement extends javax.swing.JFrame {
                 cashierTransactionBtnMouseClicked(evt);
             }
         });
-        jPanel9.add(cashierTransactionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 170, -1));
+        jPanel9.add(cashierTransactionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 190, 40));
 
-        ManageUsersBtn.setText("Sell Products");
-        ManageUsersBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+        sellProBtn.setText("Sell Products");
+        sellProBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ManageUsersBtnMouseClicked(evt);
+                sellProBtnMouseClicked(evt);
             }
         });
-        jPanel9.add(ManageUsersBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 50, 170, -1));
+        jPanel9.add(sellProBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 50, 190, 40));
 
-        staffTransactionBtn.setText("Your Transaction");
-        staffTransactionBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                staffTransactionBtnMouseClicked(evt);
-            }
-        });
-        jPanel9.add(staffTransactionBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 170, -1));
-
-        jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 430, 180));
+        jPanel3.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, 470, 230));
 
         jPanel7.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 0, 670, 730));
 
@@ -286,12 +266,12 @@ public class CashierManagement extends javax.swing.JFrame {
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addContainerGap())
         );
 
-        jPanel11.setBackground(new java.awt.Color(0, 204, 153));
+        jPanel11.setBackground(new java.awt.Color(255, 102, 102));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         cashierSellBtn.setText("Sell");
@@ -302,8 +282,8 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jPanel11.add(cashierSellBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(770, 90, 110, 30));
 
-        jLabel7.setText("Total:");
-        jPanel11.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 110, -1, -1));
+        jLabel7.setText("Total PhP:");
+        jPanel11.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 110, 70, -1));
 
         jLabel8.setText("Quantity:");
         jPanel11.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
@@ -324,9 +304,9 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jPanel11.add(productquantityfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 230, 30));
 
-        jLabel10.setText("Price:");
-        jPanel11.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, -1, -1));
-        jPanel11.add(priceField, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 40, 230, 30));
+        jLabel10.setText("Price PhP:");
+        jPanel11.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 50, 70, -1));
+        jPanel11.add(priceField, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 40, 230, 30));
         jPanel11.add(proNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 40, 230, 30));
 
         resetBtn.setText("Reset");
@@ -356,7 +336,8 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(sellDetailsTables);
 
-        jPanel12.setBackground(new java.awt.Color(204, 255, 204));
+        jPanel12.setBackground(new java.awt.Color(255, 102, 102));
+        jPanel12.setForeground(new java.awt.Color(153, 0, 0));
 
         title.setFont(new java.awt.Font("Monospaced", 1, 18)); // NOI18N
         title.setText("Jul's Sari-sari Store");
@@ -417,13 +398,13 @@ public class CashierManagement extends javax.swing.JFrame {
                 .addComponent(productquantitylabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(producttotallabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addComponent(title2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
-        jPanel13.setBackground(new java.awt.Color(255, 153, 153));
-        jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        sellCashierProBtn.setBackground(new java.awt.Color(153, 0, 51));
+        sellCashierProBtn.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         logOutBtn1.setText("Log Out");
         logOutBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -431,33 +412,30 @@ public class CashierManagement extends javax.swing.JFrame {
                 logOutBtn1MouseClicked(evt);
             }
         });
-        jPanel13.add(logOutBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
-
-        cashierTransactionBtn1.setText("Home");
-        cashierTransactionBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cashierTransactionBtn1MouseClicked(evt);
+        logOutBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logOutBtn1ActionPerformed(evt);
             }
         });
-        jPanel13.add(cashierTransactionBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 170, -1));
+        sellCashierProBtn.add(logOutBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 90, 180, 30));
 
-        ManageUsersBtn1.setText("Sell Products");
-        ManageUsersBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+        homeBtn.setText("Home");
+        homeBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ManageUsersBtn1MouseClicked(evt);
+                homeBtnMouseClicked(evt);
             }
         });
-        jPanel13.add(ManageUsersBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, 170, -1));
+        sellCashierProBtn.add(homeBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 180, 30));
 
-        staffTransactionBtn1.setText("Your Transaction");
-        staffTransactionBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+        sellCashierBtn.setText("Sell Products");
+        sellCashierBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                staffTransactionBtn1MouseClicked(evt);
+                sellCashierBtnMouseClicked(evt);
             }
         });
-        jPanel13.add(staffTransactionBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 170, -1));
+        sellCashierProBtn.add(sellCashierBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 20, 180, 30));
 
-        refreshSellDetailsBtn.setText("Refresh");
+        refreshSellDetailsBtn.setText("View Your Transaction");
         refreshSellDetailsBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 refreshSellDetailsBtnMouseClicked(evt);
@@ -484,10 +462,10 @@ public class CashierManagement extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(productPriceTbl);
 
-        jPanel16.setBackground(new java.awt.Color(0, 102, 102));
+        jPanel16.setBackground(new java.awt.Color(255, 102, 102));
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(153, 255, 204));
+        jLabel5.setForeground(new java.awt.Color(51, 0, 0));
         jLabel5.setText("Choose a product from the left");
 
         javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
@@ -525,155 +503,47 @@ public class CashierManagement extends javax.swing.JFrame {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(30, 30, 30)
-                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 3, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(189, 189, 189)
-                                .addComponent(refreshSellDetailsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 890, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                                .addGap(158, 158, 158)
+                                .addComponent(refreshSellDetailsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(sellCashierProBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(10, 10, 10)
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(68, 68, 68)
-                                .addComponent(refreshSellDetailsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(sellCashierProBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(79, 79, 79)
+                                .addComponent(refreshSellDetailsBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(20, 20, 20)
                         .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Sell", jPanel6);
-
-        jPanel18.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel20.setBackground(new java.awt.Color(255, 153, 153));
-        jPanel20.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        logOutBtn4.setText("Log Out");
-        logOutBtn4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logOutBtn4MouseClicked(evt);
-            }
-        });
-        jPanel20.add(logOutBtn4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 170, -1));
-
-        CTcashierTrans.setText("Cashier's Transaction");
-        CTcashierTrans.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CTcashierTransMouseClicked(evt);
-            }
-        });
-        jPanel20.add(CTcashierTrans, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
-
-        CTmanageUsersBtn.setText("Manage Users");
-        CTmanageUsersBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CTmanageUsersBtnMouseClicked(evt);
-            }
-        });
-        jPanel20.add(CTmanageUsersBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 170, -1));
-
-        CTstaffTransactionBtn4.setText("Staff's Transaction");
-        CTstaffTransactionBtn4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CTstaffTransactionBtn4MouseClicked(evt);
-            }
-        });
-        jPanel20.add(CTstaffTransactionBtn4, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
-
-        usersHomeBtn2.setText("Home");
-        usersHomeBtn2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                usersHomeBtn2MouseClicked(evt);
-            }
-        });
-        jPanel20.add(usersHomeBtn2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 170, -1));
-
-        jPanel18.add(jPanel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 380, 420, 170));
-
-        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
-        jPanel14.setLayout(jPanel14Layout);
-        jPanel14Layout.setHorizontalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel14Layout.setVerticalGroup(
-            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, 710, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Transaction", jPanel14);
-
-        jPanel15.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel19.setBackground(new java.awt.Color(255, 153, 153));
-        jPanel19.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        logOutBtn3.setText("Log Out");
-        logOutBtn3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                logOutBtn3MouseClicked(evt);
-            }
-        });
-        jPanel19.add(logOutBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 130, 170, -1));
-
-        STcashiersTransbtn.setText("Cashier's Transaction");
-        STcashiersTransbtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                STcashiersTransbtnMouseClicked(evt);
-            }
-        });
-        jPanel19.add(STcashiersTransbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, 170, -1));
-
-        STmanageUserbtn.setText("Manage Users");
-        STmanageUserbtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                STmanageUserbtnMouseClicked(evt);
-            }
-        });
-        jPanel19.add(STmanageUserbtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 170, -1));
-
-        STstaffTransactionBtn3.setText("Staff's Transaction");
-        STstaffTransactionBtn3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                STstaffTransactionBtn3MouseClicked(evt);
-            }
-        });
-        jPanel19.add(STstaffTransactionBtn3, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 80, 170, -1));
-
-        usersHomeBtn1.setText("Home");
-        usersHomeBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                usersHomeBtn1MouseClicked(evt);
-            }
-        });
-        jPanel19.add(usersHomeBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 170, -1));
-
-        jPanel15.add(jPanel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 380, 420, 170));
-
-        jTabbedPane1.addTab("", jPanel15);
+        jTabbedPane1.addTab("Sell Product", jPanel6);
 
         jPanel2.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1400, 740));
 
@@ -733,63 +603,22 @@ public class CashierManagement extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void logOutBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtnMouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
     }//GEN-LAST:event_logOutBtnMouseClicked
 
     private void cashierTransactionBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransactionBtnMouseClicked
-        jTabbedPane1.setSelectedIndex(2);
+        jTabbedPane1.setSelectedIndex(0);
     }//GEN-LAST:event_cashierTransactionBtnMouseClicked
 
-    private void ManageUsersBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageUsersBtnMouseClicked
+    private void sellProBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellProBtnMouseClicked
         jTabbedPane1.setSelectedIndex(1);
-    }//GEN-LAST:event_ManageUsersBtnMouseClicked
-
-    private void staffTransactionBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionBtnMouseClicked
-        jTabbedPane1.setSelectedIndex(3);
-    }//GEN-LAST:event_staffTransactionBtnMouseClicked
-
-    private void logOutBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn4MouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_logOutBtn4MouseClicked
-
-    private void CTcashierTransMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CTcashierTransMouseClicked
-        jTabbedPane1.setSelectedIndex(2);
-    }//GEN-LAST:event_CTcashierTransMouseClicked
-
-    private void CTmanageUsersBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CTmanageUsersBtnMouseClicked
-        jTabbedPane1.setSelectedIndex(1);
-    }//GEN-LAST:event_CTmanageUsersBtnMouseClicked
-
-    private void CTstaffTransactionBtn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CTstaffTransactionBtn4MouseClicked
-        jTabbedPane1.setSelectedIndex(3);
-    }//GEN-LAST:event_CTstaffTransactionBtn4MouseClicked
-
-    private void usersHomeBtn2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersHomeBtn2MouseClicked
-        jTabbedPane1.setSelectedIndex(0);
-    }//GEN-LAST:event_usersHomeBtn2MouseClicked
-
-    private void logOutBtn3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn3MouseClicked
-        new LoginPage().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_logOutBtn3MouseClicked
-
-    private void STcashiersTransbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_STcashiersTransbtnMouseClicked
-        jTabbedPane1.setSelectedIndex(2);
-    }//GEN-LAST:event_STcashiersTransbtnMouseClicked
-
-    private void STmanageUserbtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_STmanageUserbtnMouseClicked
-        jTabbedPane1.setSelectedIndex(1);
-    }//GEN-LAST:event_STmanageUserbtnMouseClicked
-
-    private void STstaffTransactionBtn3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_STstaffTransactionBtn3MouseClicked
-        jTabbedPane1.setSelectedIndex(3);
-    }//GEN-LAST:event_STstaffTransactionBtn3MouseClicked
-
-    private void usersHomeBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usersHomeBtn1MouseClicked
-        jTabbedPane1.setSelectedIndex(0);
-    }//GEN-LAST:event_usersHomeBtn1MouseClicked
+    }//GEN-LAST:event_sellProBtnMouseClicked
 
     private void productPriceTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productPriceTblMouseClicked
         DefaultTableModel priceproducttable = (DefaultTableModel) productPriceTbl.getModel();
@@ -804,7 +633,6 @@ public class CashierManagement extends javax.swing.JFrame {
         this.priceField.setEditable(false);
         this.availQuantiField.setText(quanti);
         this.availQuantiField.setEditable(false);
-
     }//GEN-LAST:event_productPriceTblMouseClicked
 
     private void refreshSellDetailsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshSellDetailsBtnActionPerformed
@@ -827,7 +655,7 @@ public class CashierManagement extends javax.swing.JFrame {
                 }
                 while (datas.next()) {
                     priceCount = 1;
-                    priceproducttable.addRow(new Object[]{datas.getString("ProductName"), datas.getString("SellingPrice"), datas.getString("quantity")});
+                    priceproducttable.addRow(new Object[]{datas.getString("ProductName"),datas.getString("SellingPrice"), datas.getString("quantity")});
                 }
             }
         } catch (HeadlessException | ClassNotFoundException | SQLException e) {
@@ -835,14 +663,14 @@ public class CashierManagement extends javax.swing.JFrame {
         }
 
         DefaultTableModel cashierTransactionModel = (DefaultTableModel) sellDetailsTables.getModel();
+        String cashierTransact = (String) this.cashierIdField.getText();
 
         int count = 0;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/management_system", "root", "")) {
                 Statement stmt = con.createStatement();
-                ResultSet sellData = stmt.executeQuery("SELECT * FROM `ctransactions`");
-
+                ResultSet sellData = stmt.executeQuery("SELECT `CTransactionID`, `productName`, `Quantity`, `totalAmount`, `UserID`, `Date` FROM `ctransactions` WHERE `UserID` = '" + cashierTransact +"'");
                 //                ResultSet newData = stmt.executeQuery("SELECT a.TransactionDate, a.UserID, b.ProductName, a.TypeOfTransaction, b.Quantity, a.Quantity AS \"Added Quantity\" FROM stransactions a, inventory b WHERE a.STransactionID=b.InventoryID;");
                 while (cashierTransactionModel.getRowCount() > 0) {
                     cashierTransactionModel.removeRow(0);
@@ -850,7 +678,7 @@ public class CashierManagement extends javax.swing.JFrame {
 
                 while (sellData.next()) {
                     count = 0;
-                    cashierTransactionModel.addRow(new Object[]{sellData.getString("CTransactionId"), sellData.getString("productName"), sellData.getString("Quantity"), sellData.getString("totalAmount"), sellData.getString("userID"), sellData.getString("date")});
+                    cashierTransactionModel.addRow(new Object[]{sellData.getString("CTransactionId"),sellData.getString("productName"),sellData.getString("quantity"),  "₱" + sellData.getString("totalAmount") + ".00", sellData.getString("userID"), sellData.getString("date")});
 
                 }
             }
@@ -861,20 +689,23 @@ public class CashierManagement extends javax.swing.JFrame {
 
     }//GEN-LAST:event_refreshSellDetailsBtnMouseClicked
 
-    private void staffTransactionBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffTransactionBtn1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_staffTransactionBtn1MouseClicked
+    private void sellCashierBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellCashierBtnMouseClicked
+        jTabbedPane1.setSelectedIndex(1);
+    }//GEN-LAST:event_sellCashierBtnMouseClicked
 
-    private void ManageUsersBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ManageUsersBtn1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ManageUsersBtn1MouseClicked
-
-    private void cashierTransactionBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cashierTransactionBtn1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cashierTransactionBtn1MouseClicked
+    private void homeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeBtnMouseClicked
+         jTabbedPane1.setSelectedIndex(0);
+    }//GEN-LAST:event_homeBtnMouseClicked
 
     private void logOutBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logOutBtn1MouseClicked
-        // TODO add your handling code here:
+        
+        int a = JOptionPane.showConfirmDialog(null, "Are you sure to logout?", "Warning", JOptionPane.YES_NO_OPTION);
+        if (a == JOptionPane.YES_OPTION) {
+            new LoginPage().setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.getRootFrame().dispose();
+        }
     }//GEN-LAST:event_logOutBtn1MouseClicked
 
     private void sellDetailsTablesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sellDetailsTablesMouseClicked
@@ -940,7 +771,7 @@ public class CashierManagement extends javax.swing.JFrame {
             this.datesoldlabel.setText("Date: " + myDateObj.format(orderDate));
             this.productnamelabel.setText("Product Name: " + (String) this.proNameField.getText());
             this.productquantitylabel.setText("Quantity: " + Integer.parseInt(this.productquantityfield.getText()) + " pack/s");
-            this.producttotallabel.setText("Total: Php " + Integer.parseInt(this.totalAmountField.getText()) + ".00");
+            this.producttotallabel.setText("Total: ₱" + Integer.parseInt(this.totalAmountField.getText()) + ".00");
             //from here
             try {
                 DefaultTableModel cahiersTableModel = (DefaultTableModel) sellDetailsTables.getModel();
@@ -967,7 +798,7 @@ public class CashierManagement extends javax.swing.JFrame {
                     while (newData.next()) {
                         count = 0;
                         cahiersTableModel.removeRow(count);
-                        cahiersTableModel.addRow(new Object[]{newData.getString("CTransactionID"), newData.getString("productName"), newData.getString("Quantity"), newData.getString("totalAmount"), newData.getString("userID"), newData.getString("date")});
+                        cahiersTableModel.addRow(new Object[]{newData.getString("CTransactionID"), newData.getString("productName"), newData.getString("Quantity"),"₱" + newData.getString("totalAmount") + ".00", newData.getString("userID"), newData.getString("date")});
                     }
                     con.close();
                 }
@@ -982,6 +813,10 @@ public class CashierManagement extends javax.swing.JFrame {
 
         }
     }//GEN-LAST:event_cashierSellBtnMouseClicked
+
+    private void logOutBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_logOutBtn1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1027,21 +862,13 @@ public class CashierManagement extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CTcashierTrans;
-    private javax.swing.JButton CTmanageUsersBtn;
-    private javax.swing.JButton CTstaffTransactionBtn4;
-    private javax.swing.JButton ManageUsersBtn;
-    private javax.swing.JButton ManageUsersBtn1;
-    private javax.swing.JButton STcashiersTransbtn;
-    private javax.swing.JButton STmanageUserbtn;
-    private javax.swing.JButton STstaffTransactionBtn3;
     private javax.swing.JTextField availQuantiField;
     public javax.swing.JTextField cashierIdField;
     public javax.swing.JTextField cashierNameField;
     private javax.swing.JButton cashierSellBtn;
     private javax.swing.JButton cashierTransactionBtn;
-    private javax.swing.JButton cashierTransactionBtn1;
     private javax.swing.JLabel datesoldlabel;
+    private javax.swing.JButton homeBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -1056,15 +883,9 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
-    private javax.swing.JPanel jPanel18;
-    private javax.swing.JPanel jPanel19;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -1077,8 +898,6 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton logOutBtn;
     private javax.swing.JButton logOutBtn1;
-    private javax.swing.JButton logOutBtn3;
-    private javax.swing.JButton logOutBtn4;
     private javax.swing.JTextField priceField;
     private javax.swing.JTextField proNameField;
     private javax.swing.JTable productPriceTbl;
@@ -1088,14 +907,13 @@ public class CashierManagement extends javax.swing.JFrame {
     private javax.swing.JLabel producttotallabel;
     private javax.swing.JButton refreshSellDetailsBtn;
     private javax.swing.JButton resetBtn;
+    private javax.swing.JButton sellCashierBtn;
+    private javax.swing.JPanel sellCashierProBtn;
     private javax.swing.JTable sellDetailsTables;
-    private javax.swing.JButton staffTransactionBtn;
-    private javax.swing.JButton staffTransactionBtn1;
+    private javax.swing.JButton sellProBtn;
     private javax.swing.JLabel title;
     private javax.swing.JLabel title1;
     private javax.swing.JLabel title2;
     private javax.swing.JTextField totalAmountField;
-    private javax.swing.JButton usersHomeBtn1;
-    private javax.swing.JButton usersHomeBtn2;
     // End of variables declaration//GEN-END:variables
 }
