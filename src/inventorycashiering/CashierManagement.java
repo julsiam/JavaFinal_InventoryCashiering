@@ -197,7 +197,7 @@ public class CashierManagement extends javax.swing.JFrame {
 
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\1styrGroupB\\Downloads\\back8.png")); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back8.png"))); // NOI18N
         jPanel8.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 660, 510));
 
         jPanel7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 700, 660));

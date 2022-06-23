@@ -158,7 +158,7 @@ public class InventoryManagement extends javax.swing.JFrame {
 
         jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\1styrGroupB\\Downloads\\back7.PNG")); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back7.PNG"))); // NOI18N
         jPanel10.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 570, 590));
 
         jPanel5.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 580, 590));
